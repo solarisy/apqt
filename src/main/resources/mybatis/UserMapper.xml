@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.wismay.apqt.repository.UserDao">
+	<resultMap id="userMap" type="com.wismay.apqt.entity.User">
+		<id property="id" column="id" />
+		<result property="loginName" column="login_name" />
+		<result property="name" column="name" />
+		<result property="email" column="email" />
+		<result property="mobilephone" column="mobilephone" />
+		<result property="password" column="password" />
+		<result property="salt" column="salt" />
+		<result property="roles" column="roles" />
+		<result property="updateDate" column="update_date" />
+		<result property="createDate" column="create_date" />
+		<result property="createUser" column="create_user" />
+		<result property="deleted" column="deleted" />
+		<result property="proxy" column="proxy" />
+		<result property="proxyName" column="proxy_name" />
+	</resultMap>
+
+	<select id="findByLoginName" parameterType="string" resultMap="userMap">
+		select * from t_user t where t.login_name=#{loginName}
+	</select>
+	
+	<!--
+		获取用户: 输出直接映射到对象, login_name列要"as loginName"以方便映射 ,team_id as "team.id"创建team对象并赋值
+	-->
+	<select id="getById" parameterType="int" resultMap="userMap">
+		select *from t_user where id=#{id}
+	</select>
+	
+	<!-- 查询所有用户 -->
+	<select id="getAll" resultMap="userMap">
+		select * from t_user
+	</select>
+	
+		<!-- 查询用户,演示: 1.输入用map传入多个参数 2.<where>语句, 智能添加where和and关键字 3.输出直接映射对象 -->
+	<select id="searchHaveProxy" parameterType="map" resultMap="userMap">
+		select t.*,p.name_cn as proxy_name from t_user t 
+		left join t_proxy p on t.proxy=p.id 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+			<if test="user.roles != null and user.roles != '' ">
+				AND t.roles like "%"#{user.roles}"%"
+			</if>
+			<if test="user.proxy != null and user.proxy != 0 ">
+				AND t.proxy  = #{user.proxy}
+			</if>
+		</where>
+		order by t.id DESC 
+	</select>
+
+	
+	<!-- 查询用户,演示: 1.输入用map传入多个参数 2.<where>语句, 智能添加where和and关键字 3.输出直接映射对象 -->
+	<select id="search" parameterType="map" resultMap="userMap">
+		select * from t_user t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+			<if test="user.roles != null and user.roles != '' ">
+				AND roles like "%"#{user.roles}"%"
+			</if>
+			<if test="user.proxy != null and user.proxy != 0 ">
+				AND proxy  = #{user.proxy}
+			</if>
+		</where>
+		order by id DESC 
+	</select>
+
+	
+	<!-- 查询用户,演示: 1.输入用map传入多个参数 2.<where>语句, 智能添加where和and关键字 3.输出直接映射对象 -->
+	<select id="searchPage" parameterType="map" resultMap="userMap">
+		select * from t_user t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+			<if test="user.loginName != null and user.loginName != '' ">
+				AND login_name like "%"#{user.loginName}"%" 
+			</if>
+			<if test="user.name != null and user.name != '' ">
+				AND name like "%"#{user.name}"%"
+			</if>
+		</where>
+		order by id DESC 
+		LIMIT #{pageStart},#{pageSize}
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="Long">
+		select count(1) from t_user t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+			<if test="loginName != null and loginName != '' ">
+				AND login_name like "%"#{loginName}"%"
+			</if>
+			<if test="name != null and name != '' ">
+				AND name  like "%"#{name}"%"
+			</if>
+		</where>
+	</select>
+
+	<!-- 插入用户： 1.由数据库生成id并赋值到user对象 2.输入用对象, 嵌套属性表达式#{team.id} -->
+	<insert id="save" parameterType="com.wismay.apqt.entity.User" useGeneratedKeys="true" keyProperty="id">
+		insert into t_user (
+			id,login_name,name,email,mobilephone,password,salt,roles,update_date,create_date,create_user,deleted,proxy)
+		values (
+			#{id},#{loginName},#{name},#{email},#{mobilephone},#{password},#{salt},#{roles},#{updateDate},#{createDate},#{createUser},#{deleted},#{proxy})
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.wismay.apqt.entity.User">
+		update t_user t set 
+			t.id=#{id} 
+			<if test="id != null and id != '' ">
+				,id=#{id}
+			</if>
+			<if test="loginName != null and loginName != '' ">
+				,login_name=#{loginName}
+			</if>
+			<if test="name != null and name != '' ">
+				,name=#{name}
+			</if>
+			<if test="email != null and email != '' ">
+				,email=#{email}
+			</if>
+			<if test="mobilephone != null and mobilephone != '' ">
+				,mobilephone=#{mobilephone}
+			</if>
+			<if test="password != null and password != '' ">
+				,password=#{password}
+			</if>
+			<if test="salt != null and salt != '' ">
+				,salt=#{salt}
+			</if>
+			<if test="roles != null and roles != '' ">
+				,roles=#{roles}
+			</if>
+			<if test="updateDate != null and updateDate != '' ">
+				,update_date=#{updateDate}
+			</if>
+			<if test="createDate != null and createDate != '' ">
+				,create_date=#{createDate}
+			</if>
+			<if test="createUser != null and createUser != '' ">
+				,create_user=#{createUser}
+			</if>
+			<if test="deleted != null and deleted != '' ">
+				,deleted=#{deleted}
+			</if>
+			<if test="proxy != null and proxy != '' ">
+				,proxy=#{proxy}
+			</if>
+		where t.id=#{id}
+	</update>
+	
+	<!-- 删除用户 -->
+	<delete id="delete" parameterType="int">
+	     update t_user set deleted=0 where id=#{id}
+	</delete>
+	
+
+</mapper> 

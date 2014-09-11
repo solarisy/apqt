@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.wismay.apqt.repository.ProxyDao">
+	<resultMap id="proxyMap" type="com.wismay.apqt.entity.Proxy">
+		<id property="id" column="id" />
+		<result property="id" column="id" />
+		<result property="updateDate" column="update_date" />
+		<result property="createDate" column="create_date" />
+		<result property="createUser" column="create_user" />
+		<result property="deleted" column="deleted" />
+		<result property="orgcode" column="orgcode" />
+		<result property="nameCn" column="name_cn" />
+		<result property="nameEn" column="name_en" />
+		<result property="registeredNumber" column="registered_number" />
+		<result property="taxNumber" column="tax_number" />
+		<result property="industry" column="industry" />
+		<result property="unitPropertie" column="unit_propertie" />
+		<result property="foundedDate" column="founded_date" />
+		<result property="businessScope" column="business_scope" />
+		<result property="annualTurnover" column="annual_turnover" />
+		<result property="employeeNumber" column="employee_number" />
+		<result property="legalRepresentative" column="legal_representative" />
+		<result property="basicBank" column="basic_bank" />
+		<result property="basicBankAccount" column="basic_bank_account" />
+		<result property="registeredCapital" column="registered_capital" />
+		<result property="website" column="website" />
+		<result property="registeredAddress" column="registered_address" />
+		<result property="contactsAddress" column="contacts_address" />
+		<result property="zip" column="zip" />
+		<result property="contacts" column="contacts" />
+		<result property="contactsPhone" column="contacts_phone" />
+		<result property="certcode" column="certcode" />
+		<result property="auditStatus" column="audit_status" />
+	</resultMap>
+	
+	<!-- 根据Id查询 -->
+	<select id="getById" parameterType="int" resultMap="proxyMap">
+		select * from t_proxy where deleted=1 and id=#{id}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="getAll" resultMap="proxyMap">
+		select * from t_proxy where deleted=1
+	</select>
+	
+	<!-- 查询 -->
+	<select id="search" parameterType="map" resultMap="proxyMap">
+		select * from t_proxy t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+			<if test="proxy.auditStatusList != null ">
+				AND t.audit_status in 
+				<foreach item="item" index="index" collection="proxy.auditStatusList" open="(" separator="," close=")">  
+				  #{item} 
+				</foreach> 
+			</if>
+		</where>
+		order by id DESC 
+	</select>
+
+	
+	<!-- 分页查询 -->
+	<select id="searchPage" parameterType="map" resultMap="proxyMap">
+		select * from t_proxy t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+		</where>
+		order by id DESC 
+		LIMIT #{pageStart},#{pageSize}
+	</select>
+	
+	<!-- 查询总数 -->
+	<select id="searchCount" parameterType="map" resultType="Long">
+		select count(1) from  t_proxy t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+		</where>
+	</select>
+
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.wismay.apqt.entity.Proxy" useGeneratedKeys="true" keyProperty="id">
+		insert into t_proxy (
+			id,update_date,create_date,create_user,deleted,orgcode,name_cn,name_en,registered_number,tax_number,industry,unit_propertie,founded_date,business_scope,annual_turnover,employee_number,legal_representative,basic_bank,basic_bank_account,registered_capital,website,registered_address,contacts_address,zip,contacts,contacts_phone,certcode,audit_status)
+		values (
+			#{id},#{updateDate},#{createDate},#{createUser},#{deleted},#{orgcode},#{nameCn},#{nameEn},#{registeredNumber},#{taxNumber},#{industry},#{unitPropertie},#{foundedDate},#{businessScope},#{annualTurnover},#{employeeNumber},#{legalRepresentative},#{basicBank},#{basicBankAccount},#{registeredCapital},#{website},#{registeredAddress},#{contactsAddress},#{zip},#{contacts},#{contactsPhone},#{certcode},#{auditStatus})
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.wismay.apqt.entity.Proxy">
+		update t_proxy t set 
+			t.id=#{id} 
+			<if test="id != null and id != '' ">
+				,id=#{id}
+			</if>
+			<if test="updateDate != null and updateDate != '' ">
+				,update_date=#{updateDate}
+			</if>
+			<if test="createDate != null and createDate != '' ">
+				,create_date=#{createDate}
+			</if>
+			<if test="createUser != null and createUser != '' ">
+				,create_user=#{createUser}
+			</if>
+			<if test="deleted != null and deleted != '' ">
+				,deleted=#{deleted}
+			</if>
+			<if test="orgcode != null and orgcode != '' ">
+				,orgcode=#{orgcode}
+			</if>
+			<if test="nameCn != null and nameCn != '' ">
+				,name_cn=#{nameCn}
+			</if>
+			<if test="nameEn != null and nameEn != '' ">
+				,name_en=#{nameEn}
+			</if>
+			<if test="registeredNumber != null and registeredNumber != '' ">
+				,registered_number=#{registeredNumber}
+			</if>
+			<if test="taxNumber != null and taxNumber != '' ">
+				,tax_number=#{taxNumber}
+			</if>
+			<if test="industry != null and industry != '' ">
+				,industry=#{industry}
+			</if>
+			<if test="unitPropertie != null and unitPropertie != '' ">
+				,unit_propertie=#{unitPropertie}
+			</if>
+			<if test="foundedDate != null and foundedDate != '' ">
+				,founded_date=#{foundedDate}
+			</if>
+			<if test="businessScope != null and businessScope != '' ">
+				,business_scope=#{businessScope}
+			</if>
+			<if test="annualTurnover != null and annualTurnover != '' ">
+				,annual_turnover=#{annualTurnover}
+			</if>
+			<if test="employeeNumber != null and employeeNumber != '' ">
+				,employee_number=#{employeeNumber}
+			</if>
+			<if test="legalRepresentative != null and legalRepresentative != '' ">
+				,legal_representative=#{legalRepresentative}
+			</if>
+			<if test="basicBank != null and basicBank != '' ">
+				,basic_bank=#{basicBank}
+			</if>
+			<if test="basicBankAccount != null and basicBankAccount != '' ">
+				,basic_bank_account=#{basicBankAccount}
+			</if>
+			<if test="registeredCapital != null and registeredCapital != '' ">
+				,registered_capital=#{registeredCapital}
+			</if>
+			<if test="website != null and website != '' ">
+				,website=#{website}
+			</if>
+			<if test="registeredAddress != null and registeredAddress != '' ">
+				,registered_address=#{registeredAddress}
+			</if>
+			<if test="contactsAddress != null and contactsAddress != '' ">
+				,contacts_address=#{contactsAddress}
+			</if>
+			<if test="zip != null and zip != '' ">
+				,zip=#{zip}
+			</if>
+			<if test="contacts != null and contacts != '' ">
+				,contacts=#{contacts}
+			</if>
+			<if test="contactsPhone != null and contactsPhone != '' ">
+				,contacts_phone=#{contactsPhone}
+			</if>
+			<if test="certcode != null and certcode != '' ">
+				,certcode=#{certcode}
+			</if>
+			<if test="auditStatus != null and auditStatus != '' ">
+				,audit_status=#{auditStatus}
+			</if>
+		where t.id=#{id}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="int">
+	     update t_proxy set deleted=0 where id=#{id}
+	</delete>
+	
+
+</mapper> 

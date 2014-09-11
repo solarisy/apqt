@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.wismay.apqt.repository.PersonalDao">
+	<resultMap id="personalMap" type="com.wismay.apqt.entity.Personal">
+		<id property="id" column="id" />
+		<result property="id" column="id" />
+		<result property="updateDate" column="update_date" />
+		<result property="createDate" column="create_date" />
+		<result property="createUser" column="create_user" />
+		<result property="deleted" column="deleted" />
+		<result property="idNumber" column="id_number" />
+		<result property="name" column="name" />
+		<result property="sex" column="sex" />
+		<result property="country" column="country" />
+		<result property="ethnic" column="ethnic" />
+		<result property="unit" column="unit" />
+		<result property="unitAddress" column="unit_address" />
+		<result property="duty" column="duty" />
+		<result property="height" column="height" />
+		<result property="blood" column="blood" />
+		<result property="marriage" column="marriage" />
+		<result property="children" column="children" />
+		<result property="registeredAddress" column="registered_address" />
+		<result property="address" column="address" />
+		<result property="zip" column="zip" />
+		<result property="mobilephone" column="mobilephone" />
+		<result property="phone" column="phone" />
+		<result property="qq" column="qq" />
+		<result property="email" column="email" />
+		<result property="education" column="education" />
+		<result property="degree" column="degree" />
+		<result property="certcode" column="certcode" />
+		<result property="auditStatus" column="audit_status" />
+		<result property="proxy" column="proxy" />
+		<result property="company" column="company" />
+		<result property="companyName" column="company_name" />
+	</resultMap>
+	
+	<!-- 根据Id查询 -->
+	<select id="getById" parameterType="int" resultMap="personalMap">
+		select * from t_personal where deleted=1 and id=#{id}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="getAll" resultMap="personalMap">
+		select * from t_personal where deleted=1
+	</select>
+	
+	<!-- 查询 -->
+	<select id="search" parameterType="map" resultMap="personalMap">
+		select t.*,c.name_cn as company_name from t_personal t 
+			left join t_company c on t.company=c.id
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+			<if test="personal.proxy != null ">
+				AND t.proxy=#{personal.proxy}
+			</if>
+			<if test="personal.auditStatusList != null ">
+				AND t.audit_status in 
+				<foreach item="item" index="index" collection="personal.auditStatusList" open="(" separator="," close=")">  
+				  #{item} 
+				</foreach> 
+			</if>
+		</where>
+		order by id DESC 
+	</select>
+
+	
+	<!-- 带分页的查询 -->
+	<select id="searchPage" parameterType="map" resultMap="personalMap">
+		select * from t_personal t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+		</where>
+		order by id DESC 
+		LIMIT #{pageStart},#{pageSize}
+	</select>
+	
+	<!-- 查询总数 -->
+	<select id="searchCount" parameterType="map" resultType="Long">
+		select count(1) from  t_personal t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+		</where>
+	</select>
+
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.wismay.apqt.entity.Personal" useGeneratedKeys="true" keyProperty="id">
+		insert into t_personal (
+			id,update_date,create_date,create_user,deleted,id_number,name,sex,country,ethnic,unit,unit_address,duty,height,blood,marriage,children,registered_address,address,zip,mobilephone,phone,qq,email,education,degree,certcode,audit_status,proxy,company)
+		values (
+			#{id},#{updateDate},#{createDate},#{createUser},#{deleted},#{idNumber},#{name},#{sex},#{country},#{ethnic},#{unit},#{unitAddress},#{duty},#{height},#{blood},#{marriage},#{children},#{registeredAddress},#{address},#{zip},#{mobilephone},#{phone},#{qq},#{email},#{education},#{degree},#{certcode},#{auditStatus},#{proxy},#{company})
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.wismay.apqt.entity.Personal">
+		update t_personal t set 
+			t.id=#{id} 
+			<if test="id != null and id != '' ">
+				,id=#{id}
+			</if>
+			<if test="updateDate != null and updateDate != '' ">
+				,update_date=#{updateDate}
+			</if>
+			<if test="createDate != null and createDate != '' ">
+				,create_date=#{createDate}
+			</if>
+			<if test="createUser != null and createUser != '' ">
+				,create_user=#{createUser}
+			</if>
+			<if test="deleted != null and deleted != '' ">
+				,deleted=#{deleted}
+			</if>
+			<if test="idNumber != null and idNumber != '' ">
+				,id_number=#{idNumber}
+			</if>
+			<if test="name != null and name != '' ">
+				,name=#{name}
+			</if>
+			<if test="sex != null and sex != '' ">
+				,sex=#{sex}
+			</if>
+			<if test="country != null and country != '' ">
+				,country=#{country}
+			</if>
+			<if test="ethnic != null and ethnic != '' ">
+				,ethnic=#{ethnic}
+			</if>
+			<if test="unit != null and unit != '' ">
+				,unit=#{unit}
+			</if>
+			<if test="unitAddress != null and unitAddress != '' ">
+				,unit_address=#{unitAddress}
+			</if>
+			<if test="duty != null and duty != '' ">
+				,duty=#{duty}
+			</if>
+			<if test="height != null and height != '' ">
+				,height=#{height}
+			</if>
+			<if test="blood != null and blood != '' ">
+				,blood=#{blood}
+			</if>
+			<if test="marriage != null and marriage != '' ">
+				,marriage=#{marriage}
+			</if>
+			<if test="children != null and children != '' ">
+				,children=#{children}
+			</if>
+			<if test="registeredAddress != null and registeredAddress != '' ">
+				,registered_address=#{registeredAddress}
+			</if>
+			<if test="address != null and address != '' ">
+				,address=#{address}
+			</if>
+			<if test="zip != null and zip != '' ">
+				,zip=#{zip}
+			</if>
+			<if test="mobilephone != null and mobilephone != '' ">
+				,mobilephone=#{mobilephone}
+			</if>
+			<if test="phone != null and phone != '' ">
+				,phone=#{phone}
+			</if>
+			<if test="qq != null and qq != '' ">
+				,qq=#{qq}
+			</if>
+			<if test="email != null and email != '' ">
+				,email=#{email}
+			</if>
+			<if test="education != null and education != '' ">
+				,education=#{education}
+			</if>
+			<if test="degree != null and degree != '' ">
+				,degree=#{degree}
+			</if>
+			<if test="certcode != null and certcode != '' ">
+				,certcode=#{certcode}
+			</if>
+			<if test="auditStatus != null and auditStatus != '' ">
+				,audit_status=#{auditStatus}
+			</if>
+			<if test="proxy != null and proxy != '' ">
+				,proxy=#{proxy}
+			</if>
+			<if test="company != null and company != '' ">
+				,company=#{company}
+			</if>
+		where t.id=#{id}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="int">
+	     update t_personal set deleted=0 where id=#{id}
+	</delete>
+	
+
+</mapper> 

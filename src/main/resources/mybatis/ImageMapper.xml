@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.wismay.apqt.repository.ImageDao">
+	<resultMap id="imageMap" type="com.wismay.apqt.entity.Image">
+		<id property="id" column="id" />
+		<result property="updateDate" column="update_date" />
+		<result property="createDate" column="create_date" />
+		<result property="createUser" column="create_user" />
+		<result property="deleted" column="deleted" />
+		<result property="tableName" column="table_name" />
+		<result property="tableId" column="table_id" />
+		<result property="sequence" column="sequence" />
+		<result property="name" column="name" />
+		<result property="size" column="size" />
+		<result property="newFilename" column="new_filename" />
+		<result property="thumbnailFilename" column="thumbnail_filename" />
+		<result property="thumbnailSize" column="thumbnail_size" />
+	</resultMap>
+	
+	
+	<!-- 根据Id查询 -->
+	<select id="getById" parameterType="int" resultMap="imageMap">
+		select * from t_image where deleted=1 and id=#{id}
+	</select>
+	
+	<!-- 查询 -->
+	<select id="search" parameterType="map" resultMap="imageMap">
+		select * from t_image t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+			<if test="tableName != null and tableName != '' ">
+				AND table_name=#{tableName}
+			</if>
+			<if test="tableId != null and tableId != '' ">
+				AND table_id=#{tableId}
+			</if>
+		</where>
+		order by sequence,id DESC 
+	</select>
+	
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.wismay.apqt.entity.Image" useGeneratedKeys="true" keyProperty="uuid">
+		insert into t_image (
+			id,update_date,create_date,create_user,deleted,table_name,table_id,sequence,name,size,new_filename,thumbnail_filename,thumbnail_size)
+		values (
+			#{id},#{updateDate},#{createDate},#{createUser},#{deleted},#{tableName},#{tableId},#{sequence},#{name},#{size},#{newFilename},#{thumbnailFilename},#{thumbnailSize})
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.wismay.apqt.entity.Image">
+		update t_image t set 
+			<if test="updateDate != null and updateDate != '' ">
+				,update_date=#{updateDate}
+			</if>
+			<if test="createDate != null and createDate != '' ">
+				,create_date=#{createDate}
+			</if>
+			<if test="createUser != null and createUser != '' ">
+				,create_user=#{createUser}
+			</if>
+			<if test="deleted != null and deleted != '' ">
+				,deleted=#{deleted}
+			</if>
+			<if test="tableName != null and tableName != '' ">
+				,table_name=#{tableName}
+			</if>
+			<if test="tableId != null and tableId != '' ">
+				,table_id=#{tableId}
+			</if>
+			<if test="sequence != null and sequence != '' ">
+				,sequence=#{sequence}
+			</if>
+			<if test="filename != null and filename != '' ">
+				,name=#{name}
+			</if>
+			<if test="size != null and size != '' ">
+				,size=#{size}
+			</if>
+			<if test="newFilename != null and newFilename != '' ">
+				,new_filename=#{newFilename}
+			</if>
+			<if test="thumbnailFilename != null and thumbnailFilename != '' ">
+				,thumbnail_filename=#{thumbnailFilename}
+			</if>
+			<if test="thumbnailSize != null and thumbnailSize != '' ">
+				,thumbnail_size=#{thumbnailSize}
+			</if>
+			
+		where t.id=#{id}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+	     update t_image set deleted=0 where id=#{id}
+	</delete>
+	
+
+</mapper> 

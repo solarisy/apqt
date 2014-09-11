@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/layouts/">
+	<excludes>
+		<pattern>/static/*</pattern>
+		<pattern>/api/*</pattern>
+		<pattern>/login</pattern>
+		<pattern>/register</pattern>
+		<pattern>*/ajax/*</pattern>
+	</excludes>
+	
+	<decorator name="default" page="default.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+	
+	<decorator name="section" page="section.jsp">
+		<pattern>/Section</pattern>
+		<pattern>*/Section</pattern>
+		<pattern>/*Section</pattern>
+		<pattern>/*/Section</pattern>
+		<pattern>/*/Section/*</pattern>
+	</decorator>
+	
+	
+	
+</decorators>
