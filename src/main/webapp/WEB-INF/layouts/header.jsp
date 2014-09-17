@@ -16,7 +16,7 @@
 				<!-- BEGIN LOGO -->
 
 				<a class="brand" href="${ctx}/">
-				<img src="${ctx}/static/metronic/image/logo-big.png" alt="logo" /> 
+				<img src="${ctx}/static/metronic/image/logo-102-30.png" alt="logo" /> 
 				
 				</a>
 

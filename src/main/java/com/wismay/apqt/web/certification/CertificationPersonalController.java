@@ -248,7 +248,7 @@ public class CertificationPersonalController {
 		return "certification/personal/personalList";
 	}
 
-	// 详情
+	// 详情(个人列表页面进入)
 	@RequestMapping(value = "detail/{id}/{action}", method = RequestMethod.GET)
 	public String detail(@PathVariable("id") Long id, @PathVariable("action") String action, Model model) {
 		model.addAttribute("personal", personalService.getById(id));
@@ -260,6 +260,20 @@ public class CertificationPersonalController {
 		model.addAttribute("action", action);
 
 		return "certification/personal/personalDetail";
+	}
+
+	// 详情（个人审核列表页面进入）
+	@RequestMapping(value = "detail-audit/{id}/{action}", method = RequestMethod.GET)
+	public String detailAudit(@PathVariable("id") Long id, @PathVariable("action") String action, Model model) {
+		model.addAttribute("personal", personalService.getById(id));
+
+		Image image = new Image();
+		image.setTableId(id);
+		image.setTableName("t_personal");
+		model.addAttribute("imageList", imageService.search(image));
+		model.addAttribute("action", action);
+
+		return "certification/personal/personalDetail-audit";
 	}
 
 	// 诚信码

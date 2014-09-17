@@ -113,6 +113,7 @@ public class ProxyController {
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("action", "update");
+		model.addAttribute("proxy", proxyService.getById(id));
 		return "proxy/proxyForm";
 	}
 

@@ -10,7 +10,7 @@
 
 <body>
 	<c:if test="${not empty message}">
-		<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close">×</button>${message}</div>
+		<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close"></button>${message}</div>
 	</c:if>
 	<div class="row">
 		<div class="span4 offset7">

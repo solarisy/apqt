@@ -53,6 +53,7 @@ public class PlantformAdminController {
 		user.setPlainPassword("123456");
 		user.setRoles(Role.plantform_admin);
 		user.setCreateUser(getCurrentUser().id);
+		user.setProxy(0L);
 		accountService.addUser(user);
 		redirectAttributes.addFlashAttribute("message", "操作成功，初始密码：123456");
 		return "redirect:/admin/plantform-admin";

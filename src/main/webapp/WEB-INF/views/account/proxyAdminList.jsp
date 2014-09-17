@@ -20,7 +20,7 @@
 		<div class="page-content">
 			<!-- BEGIN PAGE CONTAINER-->        
 			<div class="container-fluid">
-				<!-- BEGIN PAGE HEADER-->				<c:if test="${not empty message}">					<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close">×</button>${message}</div>				</c:if>
+				<!-- BEGIN PAGE HEADER-->				<c:if test="${not empty message}">					<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close"></button>${message}</div>				</c:if>
 				<div class="row-fluid">
 					<div class="span12">
 						<!-- BEGIN STYLE CUSTOMIZER -->						<!-- Import Style Setting Button -->        						<jsp:include page="../../layouts/style-setting.jsp"></jsp:include>

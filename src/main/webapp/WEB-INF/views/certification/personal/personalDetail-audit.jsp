@@ -25,7 +25,7 @@
 					<div class="span12">
 						<!-- BEGIN STYLE CUSTOMIZER -->						<!-- Import Style Setting Button -->        						<jsp:include page="../../../layouts/style-setting.jsp"></jsp:include>
 						<!-- END BEGIN STYLE CUSTOMIZER -->  
-						<!-- BEGIN PAGE TITLE & BREADCRUMB-->						<h3 class="page-title">个人列表</h3>						<ul class="breadcrumb">							<li>								<i class="icon-home"></i>								<a href="${ctx}">首页</a> 								<i class="icon-angle-right"></i>							</li>							<li>认证管理<i class="icon-angle-right"></i></li>							<li>个人认证<i class="icon-angle-right"></i></li>							<li><a href="${ctx}/cert/personal/list">个人列表</a><i class="icon-angle-right"></i></li>							<li>个人详情</li>													</ul>						<!-- END PAGE TITLE & BREADCRUMB-->
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->						<h3 class="page-title">个人审核</h3>						<ul class="breadcrumb">							<li>								<i class="icon-home"></i>								<a href="${ctx}">首页</a> 								<i class="icon-angle-right"></i>							</li>							<li>认证管理<i class="icon-angle-right"></i></li>							<li>个人认证<i class="icon-angle-right"></i></li>							<li><a href="${ctx}/cert/personal/audit/list">个人审核</a><i class="icon-angle-right"></i></li>							<li>个人详情</li>													</ul>						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
 				</div>
 				<!-- END PAGE HEADER-->

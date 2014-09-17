@@ -25,12 +25,12 @@ public class Company {
 	private String unitPropertie;
 	private Date foundedDate;
 	private String businessScope;
-	private Double annualTurnover;
+	private String annualTurnover;
 	private Long employeeNumber;
 	private String legalRepresentative;
 	private String basicBank;
 	private String basicBankAccount;
-	private Double registeredCapital;
+	private String registeredCapital;
 	private String website;
 	private String registeredAddress;
 	private String contactsAddress;
@@ -165,14 +165,6 @@ public class Company {
 		this.businessScope = businessScope;
 	}
 
-	public Double getAnnualTurnover() {
-		return annualTurnover;
-	}
-
-	public void setAnnualTurnover(Double annualTurnover) {
-		this.annualTurnover = annualTurnover;
-	}
-
 	public Long getEmployeeNumber() {
 		return employeeNumber;
 	}
@@ -205,11 +197,19 @@ public class Company {
 		this.basicBankAccount = basicBankAccount;
 	}
 
-	public Double getRegisteredCapital() {
+	public String getAnnualTurnover() {
+		return annualTurnover;
+	}
+
+	public void setAnnualTurnover(String annualTurnover) {
+		this.annualTurnover = annualTurnover;
+	}
+
+	public String getRegisteredCapital() {
 		return registeredCapital;
 	}
 
-	public void setRegisteredCapital(Double registeredCapital) {
+	public void setRegisteredCapital(String registeredCapital) {
 		this.registeredCapital = registeredCapital;
 	}
 

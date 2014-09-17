@@ -6,6 +6,7 @@
 		<pattern>/login</pattern>
 		<pattern>/register</pattern>
 		<pattern>*/ajax/*</pattern>
+		<pattern>/web/*</pattern>
 	</excludes>
 	
 	<decorator name="default" page="default.jsp">
@@ -19,7 +20,5 @@
 		<pattern>/*/Section</pattern>
 		<pattern>/*/Section/*</pattern>
 	</decorator>
-	
-	
 	
 </decorators>

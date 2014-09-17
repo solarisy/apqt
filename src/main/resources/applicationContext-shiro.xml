@@ -26,6 +26,8 @@
 				/login = authc
 				/logout = logout
 				/static/** = anon
+				/web/** = anon
+				/api/secure/** = authcBasic
 				/api/** = anon
 				/register/** = anon
 				/** = authc

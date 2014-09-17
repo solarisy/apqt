@@ -15,9 +15,21 @@
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
 		</encoder>
 	</appender>
+	
+	<appender name="rollingFileSMS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/apqt-sms.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/apqt.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
 
 	<!-- project default level -->
 	<logger name="com.wismay.apqt" level="INFO" />
+	
+	<logger name="com.wismay.apqt.webservice.rest" level="INFO" />
 	
 	<!-- mybatis settings 
 	<logger name="com.ibatis" level="DEBUG" />  
@@ -44,5 +56,6 @@ log4j.logger.java.sql.PreparedStatement=debug,stdout
 	<root level="ERROR">
 		<appender-ref ref="console" />
 		<appender-ref ref="rollingFile" />
+		<appender-ref ref="rollingFileSMS" />
 	</root>
 </configuration>

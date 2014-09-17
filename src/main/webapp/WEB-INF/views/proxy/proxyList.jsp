@@ -39,7 +39,7 @@
 						<!-- BEGIN PAGE TITLE & BREADCRUMB-->						<h3 class="page-title">代理列表</h3>						<ul class="breadcrumb">							<li>								<i class="icon-home"></i>								<a href="${ctx}">首页</a> 								<i class="icon-angle-right"></i>							</li>							<li>代理管理<i class="icon-angle-right"></i></li>							<li>代理列表</li>						</ul>						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
 				</div>
-				<!-- END PAGE HEADER-->				<c:if test="${not empty message}">					<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close">×</button>${message}</div>				</c:if>
+				<!-- END PAGE HEADER-->				<c:if test="${not empty message}">					<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close"></button>${message}</div>				</c:if>
 				<!-- BEGIN PAGE CONTENT-->          
 				<div class="row-fluid">
 					<div class="">

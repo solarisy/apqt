@@ -87,7 +87,7 @@
 
 						<!-- BEGIN VALIDATION STATES-->
 
-						<div class="portlet box purple">
+						<div class="portlet box blue">
 
 							<div class="portlet-title">
 

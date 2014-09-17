@@ -10,7 +10,7 @@
 
 <body>
 	<c:if test="${not empty message}">
-		<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close">×</button>${message}</div>
+		<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close"></button>${message}</div>
 	</c:if>
 	
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">

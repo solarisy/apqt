@@ -38,7 +38,7 @@
 						<!-- END BEGIN STYLE CUSTOMIZER -->  
 						<!-- BEGIN PAGE TITLE & BREADCRUMB-->						<h3 class="page-title">平台管理员</h3>						<ul class="breadcrumb">							<li>								<i class="icon-home"></i>								<a href="${ctx}">首页</a> 								<i class="icon-angle-right"></i>							</li>							<li>人员管理<i class="icon-angle-right"></i></li>							<li>平台管理员</li>						</ul>						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
-				</div>				<c:if test="${not empty message}">					<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close">×</button>${message}</div>				</c:if>
+				</div>				<c:if test="${not empty message}">					<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close"></button>${message}</div>				</c:if>
 				<!-- END PAGE HEADER-->
 				<!-- BEGIN PAGE CONTENT-->          
 				<div class="row-fluid">					<div class="">						<!-- BEGIN BORDERED TABLE PORTLET-->						<div class="portlet box red">							<div class="portlet-title">								<div class="caption"><i class="icon-user"></i> 平台管理员</div>								<div class="tools">									<a href="${ctx}/admin/plantform-admin/create" class="btn">新增</a>									<a href="javascript:;" class="collapse"></a>								</div>							</div>							<div class="portlet-body">								<table class="table table-striped table-bordered  table-hover">									<thead>										<tr>											<th>#</th>											<th>账号</th>											<th>真实姓名</th>											<th>邮箱</th>											<th>手机</th>											<th class="hidden-480">注册日期</th>											<th>操作</th>										</tr>									</thead>									<tbody>										<c:forEach items="${list}" var="obj" varStatus="status">

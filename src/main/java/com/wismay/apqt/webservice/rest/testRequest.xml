@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="gb2312"?>
+<SmsMessage>
+  <MessageID>2005052401234</MessageID> 
+  <Mobile>13823001234</Mobile> 
+  <Message>父亲节</Message> 
+  <MobaddrName>鲜花</MobaddrName> 
+  <MobaddrCode>00001234</MobaddrCode> 
+  <ReceiveDate>2008-06-21 12:00:00</ReceiveDate> 
+  <ServiceRequireType>SMS</ServiceRequireType> 
+  <ServiceRequireinfo></ServiceRequireinfo> 
+  <SmsServiceCode>121141234567</SmsServiceCode> 
+  <SmsSubServiceCode>12345</SmsSubServiceCode> 
+  <Telcom>CMCC</Telcom> 
+  <Protocolname>CMPP3.0</Protocolname> 
+  <MobileAttachId>010</MobileAttachId> 
+  <MobileAttach>北京</MobileAttach> 
+  <LinkID>Cmpp13242</LinkID>
+</SmsMessage>

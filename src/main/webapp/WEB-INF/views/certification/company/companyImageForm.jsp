@@ -36,7 +36,7 @@
 					<div class="span12">
 						<!-- BEGIN STYLE CUSTOMIZER -->						<!-- Import Style Setting Button -->        						<jsp:include page="../../../layouts/style-setting.jsp"></jsp:include>
 						<!-- END BEGIN STYLE CUSTOMIZER -->  
-						<!-- BEGIN PAGE TITLE & BREADCRUMB-->						<h3 class="page-title">录入公司信息</h3>						<ul class="breadcrumb">							<li>								<i class="icon-home"></i>								<a href="${ctx}">首页</a> 								<i class="icon-angle-right"></i>							</li>							<li>认证管理<i class="icon-angle-right"></i></li>							<li>录入客户信息</li>						</ul>						<!-- END PAGE TITLE & BREADCRUMB-->
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->						<c:if test="${action == 'save'}">							<h3 class="page-title">录入公司信息</h3>						</c:if>						<c:if test="${action == 'update'}">							<h3 class="page-title">公司列表</h3>						</c:if>						<ul class="breadcrumb">							<li>								<i class="icon-home"></i>								<a href="${ctx}">首页</a> 								<i class="icon-angle-right"></i>							</li>							<li>认证管理<i class="icon-angle-right"></i></li>							<li>公司认证<i class="icon-angle-right"></i></li>							<c:if test="${action == 'save'}">								<li>录入公司信息</li>							</c:if>							<c:if test="${action == 'update'}">								<li><a href="${ctx}/cert/company/list">公司列表</a><i class="icon-angle-right"></i></li>								<li>修改公司信息</li>							</c:if>													</ul>						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
 				</div>
 				<!-- END PAGE HEADER-->

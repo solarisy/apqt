@@ -214,7 +214,7 @@ public class CertificationCompanyController {
 		return "certification/company/companyList";
 	}
 
-	// 详情
+	// 详情 （公司列表页面进入）
 	@RequestMapping(value = "detail/{id}/{action}", method = RequestMethod.GET)
 	public String detail(@PathVariable("id") Long id, @PathVariable("action") String action, Model model) {
 		model.addAttribute("company", companyService.getById(id));
@@ -226,6 +226,20 @@ public class CertificationCompanyController {
 		model.addAttribute("action", action);
 
 		return "certification/company/companyDetail";
+	}
+
+	// 详情 （公司审核列表页面进入）
+	@RequestMapping(value = "detail-audit/{id}/{action}", method = RequestMethod.GET)
+	public String detailAudit(@PathVariable("id") Long id, @PathVariable("action") String action, Model model) {
+		model.addAttribute("company", companyService.getById(id));
+
+		Image image = new Image();
+		image.setTableId(id);
+		image.setTableName("t_company");
+		model.addAttribute("imageList", imageService.search(image));
+		model.addAttribute("action", action);
+
+		return "certification/company/companyDetail-audit";
 	}
 
 	// 诚信码
