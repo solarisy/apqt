@@ -14,7 +14,9 @@ import org.springside.modules.mapper.BeanMapper;
 import org.springside.modules.mapper.JaxbMapper;
 
 import com.wismay.apqt.entity.Company;
+import com.wismay.apqt.entity.Personal;
 import com.wismay.apqt.service.CompanyService;
+import com.wismay.apqt.service.PersonalService;
 
 /**
  * Shiro的配置文件中对/api/secure/**进行拦截，要求authBasic认证.
@@ -28,6 +30,9 @@ public class CertcodeSearchSmsController {
 
 	@Autowired
 	private CompanyService companyService;
+
+	@Autowired
+	private PersonalService personalService;
 
 	/**
 	 * 基于ContentNegotiationManager,根据URL的后缀渲染不同的格式
@@ -51,12 +56,23 @@ public class CertcodeSearchSmsController {
 
 			String certcode = certcodeSearchRequest.getMessage();// 消息内容就是诚信码
 
-			List<Company> list = companyService.searchByCertcode(certcode);
+			// 查询公司
+			List<Company> companyList = companyService.searchByCertcode(certcode);
 
-			if (list == null || list.size() == 0) {
-				res.setMessage("诚信码“" + certcode + "”还没有被使用");
+			List<Personal> personalList = null;
+			if (companyList == null || companyList.size() == 0) {
+				// 查询个人
+				personalList = personalService.searchByCertcode(certcode);
+				if (personalList == null || personalList.size() == 0) {
+					res.setMessage("诚信码“" + certcode + "”还没有被使用");
+				} else {
+					Personal personal = personalList.get(0);
+					StringBuffer msg = new StringBuffer("诚信码：").append(personal.getCertcode()).append("，姓名：" + personal.getName()).append("。");
+					res.setMessage(msg.toString());
+				}
+
 			} else {
-				Company company = list.get(0);
+				Company company = companyList.get(0);
 				StringBuffer msg = new StringBuffer("诚信码：").append(company.getCertcode()).append("，公司名称：" + company.getNameCn()).append("。");
 				res.setMessage(msg.toString());
 			}

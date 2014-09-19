@@ -19,6 +19,8 @@ public interface PersonalDao {
 
 	List<Personal> getAll();
 
+	List<Personal> searchByCertcode(String certcode);
+
 	/**
 	 * 分页查询
 	 * 

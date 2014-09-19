@@ -81,7 +81,7 @@
 						<!-- END BEGIN STYLE CUSTOMIZER -->  
 
 						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
-						<h3 class="page-title">代理人员管理</h3>
+						<h3 class="page-title">代理管理员</h3>
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-home"></i>
@@ -108,7 +108,7 @@
 
 						<!-- BEGIN VALIDATION STATES-->
 
-						<div class="portlet box purple">
+						<div class="portlet box red">
 
 							<div class="portlet-title">
 

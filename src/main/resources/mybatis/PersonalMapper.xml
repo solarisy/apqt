@@ -40,7 +40,9 @@
 	
 	<!-- 根据Id查询 -->
 	<select id="getById" parameterType="int" resultMap="personalMap">
-		select * from t_personal where deleted=1 and id=#{id}
+		select t.*,c.name_cn as company_name from t_personal t 
+			left join t_company c on t.company=c.id
+			where t.deleted=1 and t.id=#{id}
 	</select>
 	
 	<!-- 查询所有 -->
@@ -58,6 +60,9 @@
 			</if>
 			<if test="personal.proxy != null ">
 				AND t.proxy=#{personal.proxy}
+			</if>
+			<if test="personal.company != null ">
+				AND t.company=#{personal.company}
 			</if>
 			<if test="personal.auditStatusList != null ">
 				AND t.audit_status in 
@@ -92,6 +97,11 @@
 		</where>
 	</select>
 
+	<!-- 查询 -->
+	<select id="searchByCertcode" resultMap="personalMap">
+		select * from t_personal t where  t.deleted=1 AND t.audit_status=1 AND t.certcode=#{certcode}
+	</select>
+	
 	<!-- 保存 -->
 	<insert id="save" parameterType="com.wismay.apqt.entity.Personal" useGeneratedKeys="true" keyProperty="id">
 		insert into t_personal (

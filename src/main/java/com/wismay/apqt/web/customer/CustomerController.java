@@ -12,12 +12,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.wismay.apqt.comm.Role;
 import com.wismay.apqt.entity.Company;
+import com.wismay.apqt.entity.Personal;
 import com.wismay.apqt.service.CompanyService;
+import com.wismay.apqt.service.PersonalService;
 import com.wismay.apqt.service.account.ShiroDbRealm.ShiroUser;
 
 /**
@@ -40,6 +43,9 @@ public class CustomerController {
 	@Autowired
 	private CompanyService companyService;
 
+	@Autowired
+	private PersonalService personalService;
+
 	@RequestMapping(value = "mycustomer", method = RequestMethod.GET)
 	public String customerlist(Model model) {
 		Company company = new Company();
@@ -54,11 +60,25 @@ public class CustomerController {
 
 		// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
 		// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-		status.add(4L);
+		status.add(1L);
 
 		company.setAuditStatusList(status);
-		model.addAttribute("list", companyService.search(company));
+		model.addAttribute("list", companyService.myCustomer(company));
 		return "customer/mycustomerList";
+	}
+
+	// 根据公司查询器下面所有的个人信息
+	@RequestMapping(value = "mypersonal/{companyId}", method = { RequestMethod.GET })
+	public String listPersonal(@PathVariable("companyId") Long companyId, Model model) {
+		Personal p = new Personal();
+		p.setCompany(companyId);
+		List<Long> status = new ArrayList<Long>();
+		status.add(1L);
+		p.setAuditStatusList(status);
+
+		model.addAttribute("companyId", companyId);
+		model.addAttribute("list", personalService.search(p));
+		return "customer/myPersonalList";
 	}
 
 	public ShiroUser getCurrentUser() {

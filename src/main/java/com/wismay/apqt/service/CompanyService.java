@@ -42,6 +42,10 @@ public class CompanyService {
 		return companyDao.search(company);
 	}
 
+	public List<Company> myCustomer(Company company) {
+		return companyDao.myCustomer(company);
+	}
+
 	/**
 	 * 分页查询
 	 * 
@@ -78,4 +82,5 @@ public class CompanyService {
 	public void delete(Long id) {
 		companyDao.delete(id);
 	}
+
 }

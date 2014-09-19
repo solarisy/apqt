@@ -78,26 +78,18 @@ public class CertificationCompanyController {
 	// 新增
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String toCreateForm(Model model) {
-		model.addAttribute("action", "save");
+		model.addAttribute("action", "create");
 		return "certification/company/companyForm";
 	}
 
 	// 新增保存
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String createSave(@ModelAttribute("company") Company company, RedirectAttributes redirectAttributes, Model model) {
 		company.setCreateUser(getCurrentUser().id);
 		company.setCreateDate(new Date());
 		company.setProxy(getCurrentUser().getProxy());
 
-		String role = getCurrentUser().getRoles();
-
-		// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
-		// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
-			company.setAuditStatus(0L);
-		} else {
-			company.setAuditStatus(1L);
-		}
+		company.setAuditStatus(0L);
 
 		companyService.save(company);
 		return "redirect:/cert/company/imageForm/" + company.getId() + "/create";
@@ -122,19 +114,15 @@ public class CertificationCompanyController {
 
 		String role = getCurrentUser().getRoles();
 
-		// 代理管理员，看到自己的代理人员提交的信息
-		if (role.contains(Role.proxy_admin)) {
+		// 代理管理员和代理人员看到自己提交的信息，平台管理员可以查询所有公司信息
+		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
 			company.setProxy(getCurrentUser().getProxy());
 
-			// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
-			// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-			status.add(0L);// 未审核(代理提交)
+		} else {
+			company.setProxy(null);
 		}
-		// 平台管理员看到所有代理人员提交的信息 和非代理提交的信息（平台管理员，超管也可以提交公司信息）
-		else {
-			status.add(2L);// 2：代理管理员审核通过；
-			status.add(1L);// 1：未审核(平台管理员提交 或超管提交)；
-		}
+		status.add(2L);// 2：审核不通过；
+		status.add(0L);// 0：未审核
 
 		company.setAuditStatusList(status);
 		model.addAttribute("list", companyService.search(company));
@@ -159,22 +147,12 @@ public class CertificationCompanyController {
 	// 审核保存
 	@RequestMapping(value = "audit/save", method = RequestMethod.POST)
 	public String auditSave(@Valid @ModelAttribute("company") Company company, Model model) {
-		String role = getCurrentUser().getRoles();
 		// 前端使用checkbox，选择为通过=1，否则是null，如果是null，说明是审核不通过。
+		// 审核状态 0：未审核；1：审核通过；2：审核不通过
 		if (company.getAuditStatus() == null || company.getAuditStatus() == 0) {
-			// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
-			// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-			if (role.contains(Role.proxy_admin)) {
-				company.setAuditStatus(3L);// 审核不通过
-			} else {
-				company.setAuditStatus(5L);// 审核不通过
-			}
+			company.setAuditStatus(2L);// 审核不通过
 		} else {
-			if (role.contains(Role.proxy_admin)) {
-				company.setAuditStatus(2L);// 审核不通过
-			} else {
-				company.setAuditStatus(4L);// 审核不通过
-			}
+			company.setAuditStatus(1L);// 审核通过
 		}
 		companyService.update(company);
 		model.addAttribute("company", companyService.getById(company.getId()));
@@ -197,17 +175,13 @@ public class CertificationCompanyController {
 
 		String role = getCurrentUser().getRoles();
 
-		// 代理管理员、代理人员:看到自己的代理人员提交的信息
+		// 代理管理员、代理人员:看到自己代理的公司
 		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
 			company.setProxy(getCurrentUser().getProxy());
 		}
 
-		// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
-		// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-		status.add(2L);// 未审核(代理提交)
-		status.add(3L);
-		status.add(4L);
-		status.add(5L);
+		// 审核状态 0：未审核；1：审核通过；2：审核不通过
+		status.add(1L);
 
 		company.setAuditStatusList(status);
 		model.addAttribute("list", companyService.search(company));
@@ -242,6 +216,32 @@ public class CertificationCompanyController {
 		return "certification/company/companyDetail-audit";
 	}
 
+	// 详情 （查询接口页面进入）
+	@RequestMapping(value = "detail-search/{id}", method = RequestMethod.GET)
+	public String detailSearch(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("company", companyService.getById(id));
+
+		Image image = new Image();
+		image.setTableId(id);
+		image.setTableName("t_company");
+		model.addAttribute("imageList", imageService.search(image));
+
+		return "search/companyDetail";
+	}
+
+	// 详情 （我的客户页面进入）
+	@RequestMapping(value = "detail-mycustomer/{id}", method = RequestMethod.GET)
+	public String detailMyCustomer(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("company", companyService.getById(id));
+
+		Image image = new Image();
+		image.setTableId(id);
+		image.setTableName("t_company");
+		model.addAttribute("imageList", imageService.search(image));
+
+		return "customer/companyDetail";
+	}
+
 	// 诚信码
 	@RequestMapping(value = "certcode/{id}", method = RequestMethod.GET)
 	public String certcodeFrom(@PathVariable("id") Long id, Model model) {
@@ -274,11 +274,12 @@ public class CertificationCompanyController {
 		return "redirect:/cert/company/imageForm/" + company.getId() + "/update";
 	}
 
+	// 删除
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
 	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
 		companyService.delete(id);
 		redirectAttributes.addFlashAttribute("message", "删除成功");
-		return "redirect:/cert/company/list";
+		return "redirect:/cert/company/audit/list";
 	}
 
 	// 上传图片

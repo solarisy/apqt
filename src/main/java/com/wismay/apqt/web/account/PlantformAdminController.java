@@ -44,7 +44,7 @@ public class PlantformAdminController {
 
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
-		model.addAttribute("action", "save");
+		model.addAttribute("action", "create");
 		return "account/plantformAdminForm";
 	}
 

@@ -51,7 +51,7 @@ public class ProxyController {
 		Proxy p = new Proxy();
 		List<Long> status = new ArrayList<Long>();
 		status.add(1L);
-		status.add(2L);
+		// status.add(2L);
 		p.setAuditStatusList(status);
 		model.addAttribute("list", proxyService.search(p));
 		return "proxy/proxyList";
@@ -74,6 +74,13 @@ public class ProxyController {
 	public String detail(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("proxy", proxyService.getById(id));
 		return "proxy/proxyDetail";
+	}
+
+	// 详情
+	@RequestMapping(value = "detail-audit/{id}", method = RequestMethod.GET)
+	public String detailAudit(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("proxy", proxyService.getById(id));
+		return "proxy/proxyDetail-audit";
 	}
 
 	// 诚信码
@@ -161,7 +168,7 @@ public class ProxyController {
 	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
 		proxyService.delete(id);
 		redirectAttributes.addFlashAttribute("message", "删除成功");
-		return "redirect:/proxy";
+		return "redirect:/proxy/audit/list";
 	}
 
 	public ShiroUser getCurrentUser() {

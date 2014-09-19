@@ -21,6 +21,8 @@ public interface CompanyDao {
 
 	List<Company> search(@Param("company") Company company);
 
+	List<Company> myCustomer(@Param("company") Company company);
+
 	List<Company> searchByCertcode(String certcode);
 
 	/**
@@ -49,5 +51,7 @@ public interface CompanyDao {
 	 * 软删除
 	 */
 	void delete(Long id);
+
+	void addPersonal(Long id);
 
 }

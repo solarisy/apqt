@@ -35,6 +35,7 @@
 		<result property="auditStatus" column="audit_status" />
 		<result property="proxy" column="proxy" />
 		<result property="personalCount" column="personal_count" />
+		<result property="pcount" column="pcount" />
 		
 	</resultMap>
 	
@@ -68,9 +69,29 @@
 		order by id DESC 
 	</select>
 	
+	<select id="myCustomer" parameterType="map" resultMap="companyMap">
+		select t.*,(select count(1) from t_personal p where p.company=t.id and p.deleted=1 and p.audit_status=1) as pcount 
+			from t_company t 
+			<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+			<if test="company.proxy != null ">
+				AND t.proxy=#{company.proxy}
+			</if>
+			<if test="company.auditStatusList != null">
+				AND t.audit_status in 
+				<foreach item="item" index="index" collection="company.auditStatusList" open="(" separator="," close=")">  
+				  #{item} 
+				</foreach> 
+			</if>
+		</where>
+		order by id DESC 
+	</select>
+	
 	<!-- 查询 -->
 	<select id="searchByCertcode" resultMap="companyMap">
-		select * from t_company t where  t.deleted=1 AND t.audit_status=4 AND t.certcode=#{certcode}
+		select * from t_company t where  t.deleted=1 AND t.audit_status=1 AND t.certcode=#{certcode}
 	</select>
 
 	
@@ -198,6 +219,11 @@
 				,personal_count=#{personalCount}
 			</if>
 		where t.id=#{id}
+	</update>
+	
+	<!-- 公司人数+1 -->
+	<update id="addPersonal" parameterType="int">
+		update t_company t set t.personal_count=personal_count+1 where t.id=#{id}
 	</update>
 	
 	<!-- 删除 -->

@@ -68,7 +68,7 @@
 								<i class="icon-angle-right"></i>
 							</li>
 							<li>认证管理<i class="icon-angle-right"></i></li>
-							<li>个人管理<i class="icon-angle-right"></i></li>
+							<li>个人认证<i class="icon-angle-right"></i></li>
 							<li><a href="${ctx}/cert/personal/list">个人列表</a><i class="icon-angle-right"></i></li>
 							<li>诚信码</li>
 						</ul>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.wismay.apqt.comm.MyPage;
 import com.wismay.apqt.entity.Personal;
+import com.wismay.apqt.repository.CompanyDao;
 import com.wismay.apqt.repository.PersonalDao;
 
 /**
@@ -24,6 +25,14 @@ public class PersonalService {
 
 	@Autowired
 	private PersonalDao personalDao;
+
+	@Autowired
+	private CompanyDao companyDao;
+
+	// 根据诚信码查询
+	public List<Personal> searchByCertcode(String certcode) {
+		return personalDao.searchByCertcode(certcode);
+	}
 
 	public Personal getById(Long id) {
 		return personalDao.getById(id);
@@ -71,7 +80,23 @@ public class PersonalService {
 	}
 
 	public List<Personal> search(Personal personal) {
-		// TODO Auto-generated method stub
 		return personalDao.search(personal);
+	}
+
+	/**
+	 * 个人审核
+	 * 
+	 * @param personal
+	 *            2014-9-18
+	 *            Peter
+	 */
+	public void updateAudit(Personal personal) {
+		personalDao.update(personal);
+
+		// 如果代理审核通过，公司人数+1
+		if (personal.getAuditStatus() == 1L) {
+			companyDao.addPersonal(personal.getCompany());
+		}
+
 	}
 }

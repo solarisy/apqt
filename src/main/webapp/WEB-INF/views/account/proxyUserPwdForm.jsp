@@ -81,7 +81,7 @@
 						<!-- END BEGIN STYLE CUSTOMIZER -->  
 
 						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
-						<h3 class="page-title">平台人员管理</h3>
+						<h3 class="page-title">代理人员</h3>
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-home"></i>
@@ -89,7 +89,7 @@
 								<i class="icon-angle-right"></i>
 							</li>
 							<li>人员管理<i class="icon-angle-right"></i></li>
-							<li>代理用户<i class="icon-angle-right"></i></li>
+							<li>代理人员<i class="icon-angle-right"></i></li>
 							<li>修改密码</li>
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
@@ -108,7 +108,7 @@
 
 						<!-- BEGIN VALIDATION STATES-->
 
-						<div class="portlet box purple">
+						<div class="portlet box red">
 
 							<div class="portlet-title">
 

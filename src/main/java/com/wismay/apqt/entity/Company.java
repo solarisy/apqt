@@ -42,8 +42,17 @@ public class Company {
 	private Long proxy = 0L;// 0：平台管理员创建的公司信息，否则是代理创建的公司信息
 
 	private Long personalCount = 0L;// 个人数
+	private Long pcount = 0L;// 个人数(查询时统计)
 
 	private List<Long> auditStatusList;// 查询条件
+
+	public Long getPcount() {
+		return pcount;
+	}
+
+	public void setPcount(Long pcount) {
+		this.pcount = pcount;
+	}
 
 	public Long getPersonalCount() {
 		return personalCount;

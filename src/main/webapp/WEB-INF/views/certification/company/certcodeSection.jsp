@@ -68,7 +68,7 @@
 								<i class="icon-angle-right"></i>
 							</li>
 							<li>认证管理<i class="icon-angle-right"></i></li>
-							<li>公司管理<i class="icon-angle-right"></i></li>
+							<li>公司认证<i class="icon-angle-right"></i></li>
 							<li><a href="${ctx}/cert/company/list">公司列表</a><i class="icon-angle-right"></i></li>
 							<li>诚信码</li>
 						</ul>

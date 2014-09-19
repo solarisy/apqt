@@ -909,11 +909,12 @@ Page title
 ***/
 .page-title {
   padding: 0px;
-  font-size: 30px;
+  font-size: 15px;
   letter-spacing: -1px;
-  display: block;
+  display: none;
+  visibility: hidden;
   color: #666;
-  margin: 20px 0px 15px 0px;
+  margin: 0px 0px 0px 0px;
   font-weight: 300;
   font-family: 'Open Sans';
 }
@@ -935,6 +936,7 @@ Page breadcrumb
   box-shadow: none;
   padding-right: 0px;
   padding-left: 8px;
+   margin-top: 20px;
   margin-bottom: 25px;
   border:0px !important;  
   background-color: #eee;

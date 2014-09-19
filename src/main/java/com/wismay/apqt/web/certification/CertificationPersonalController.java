@@ -112,28 +112,40 @@ public class CertificationPersonalController {
 	// to 新增 页面
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String toCreateForm(Model model) {
-		model.addAttribute("action", "save");
+
+		// 新增页面选择个人所属公司，平台管理员则可以选择所有审核通过的公司，代理只能选择自己代理的公司
+		Company company = new Company();
+		List<Long> status = new ArrayList<Long>();
+
+		String role = getCurrentUser().getRoles();
+
+		// 代理管理员、代理人员:看到自己的代理人员提交的信息
+		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
+			company.setProxy(getCurrentUser().getProxy());
+		} else {
+			company.setProxy(null);
+		}
+
+		// 1：审核通过
+		status.add(1L);
+		company.setAuditStatusList(status);
+
+		model.addAttribute("companyList", companyService.search(company));
+		model.addAttribute("action", "create");
 		return "certification/personal/personalForm";
 	}
 
 	// 保存个人基本信息
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String createSave(@ModelAttribute("personal") Personal personal, RedirectAttributes redirectAttributes, Model model) {
 		personal.setCreateUser(getCurrentUser().id);
 		personal.setCreateDate(new Date());
 		personal.setProxy(getCurrentUser().getProxy());
 
-		String role = getCurrentUser().getRoles();
-
-		// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
-		// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
-			personal.setAuditStatus(0L);
-		} else {
-			personal.setAuditStatus(1L);
-		}
+		personal.setAuditStatus(0L);
 
 		personalService.save(personal);
+
 		return "redirect:/cert/personal/imageForm/" + personal.getId() + "/create";
 	}
 
@@ -156,19 +168,15 @@ public class CertificationPersonalController {
 
 		String role = getCurrentUser().getRoles();
 
-		// 代理管理员，看到自己的代理人员提交的信息
-		if (role.contains(Role.proxy_admin)) {
+		// 代理管理员和代理人员看到自己提交的信息
+		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
 			personal.setProxy(getCurrentUser().getProxy());
+		} else {
+			personal.setProxy(null);
+		}
 
-			// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
-			// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-			status.add(0L);// 未审核(代理提交)
-		}
-		// 平台管理员看到所有代理人员提交的信息 和非代理提交的信息（平台管理员，超管也可以提交个人信息）
-		else {
-			status.add(2L);// 2：代理管理员审核通过；
-			status.add(1L);// 1：未审核(平台管理员提交 或超管提交)；
-		}
+		status.add(2L);// 2：审核不通过；
+		status.add(0L);// 0：未审核
 
 		personal.setAuditStatusList(status);
 		model.addAttribute("list", personalService.search(personal));
@@ -196,21 +204,11 @@ public class CertificationPersonalController {
 		String role = getCurrentUser().getRoles();
 		// 前端使用checkbox，选择为通过=1，否则是null，如果是null，说明是审核不通过。
 		if (personal.getAuditStatus() == null || personal.getAuditStatus() == 0) {
-			// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
-			// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-			if (role.contains(Role.proxy_admin)) {
-				personal.setAuditStatus(3L);// 审核不通过
-			} else {
-				personal.setAuditStatus(5L);// 审核不通过
-			}
+			personal.setAuditStatus(2L);// 审核不通过
 		} else {
-			if (role.contains(Role.proxy_admin)) {
-				personal.setAuditStatus(2L);// 审核不通过
-			} else {
-				personal.setAuditStatus(4L);// 审核不通过
-			}
+			personal.setAuditStatus(1L);// 审核通过
 		}
-		personalService.update(personal);
+		personalService.updateAudit(personal);
 		model.addAttribute("personal", personalService.getById(personal.getId()));
 
 		return "certification/personal/personalAuditResult";
@@ -231,17 +229,13 @@ public class CertificationPersonalController {
 
 		String role = getCurrentUser().getRoles();
 
-		// 代理管理员、代理人员:看到自己的代理人员提交的信息
+		// 代理管理员、代理人员:看到自己代理的公司
 		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
 			personal.setProxy(getCurrentUser().getProxy());
 		}
 
-		// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
-		// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-		status.add(2L);// 未审核(代理提交)
-		status.add(3L);
-		status.add(4L);
-		status.add(5L);
+		// 审核状态 0：未审核；1：审核通过；2：审核不通过
+		status.add(1L);
 
 		personal.setAuditStatusList(status);
 		model.addAttribute("list", personalService.search(personal));
@@ -276,6 +270,33 @@ public class CertificationPersonalController {
 		return "certification/personal/personalDetail-audit";
 	}
 
+	// 详情（查询接口页面进入）
+	@RequestMapping(value = "detail-search/{id}", method = RequestMethod.GET)
+	public String detailSearch(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("personal", personalService.getById(id));
+
+		Image image = new Image();
+		image.setTableId(id);
+		image.setTableName("t_personal");
+		model.addAttribute("imageList", imageService.search(image));
+
+		return "search/personalDetail";
+	}
+
+	// 详情（我的客户页面进入）
+	@RequestMapping(value = "detail-mycustomer/{id}/{companyId}", method = RequestMethod.GET)
+	public String detailMyCustomer(@PathVariable("id") Long id, @PathVariable("companyId") Long companyId, Model model) {
+		model.addAttribute("personal", personalService.getById(id));
+
+		Image image = new Image();
+		image.setTableId(id);
+		image.setTableName("t_personal");
+		model.addAttribute("imageList", imageService.search(image));
+		model.addAttribute("companyId", companyId);
+
+		return "customer/personalDetail";
+	}
+
 	// 诚信码
 	@RequestMapping(value = "certcode/{id}", method = RequestMethod.GET)
 	public String certcodeFrom(@PathVariable("id") Long id, Model model) {
@@ -294,6 +315,21 @@ public class CertificationPersonalController {
 	// 编辑
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
+		// 编辑页面选择个人所属公司，平台管理员则可以选择所有审核通过的公司，代理只能选择自己代理的公司
+		Company company = new Company();
+		List<Long> status = new ArrayList<Long>();
+		String role = getCurrentUser().getRoles();
+		// 代理管理员、代理人员:看到自己的代理人员提交的信息
+		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
+			company.setProxy(getCurrentUser().getProxy());
+		} else {
+			company.setProxy(null);
+		}
+		// 1：审核通过
+		status.add(1L);
+		company.setAuditStatusList(status);
+		model.addAttribute("companyList", companyService.search(company));
+
 		model.addAttribute("personal", personalService.getById(id));
 		model.addAttribute("action", "update");
 		return "certification/personal/personalForm";
