@@ -1,0 +1,32 @@
+/* CSS Document */
+.m-mianWap{ width:1042px; background-color:#fff;}
+.m-head{ background:url(../images/mainNavBg.jpg) repeat-x; height:26px; line-height:26px;}
+.m-head a{ padding:0 20px;}
+.m-grcxWap{ background-color:#f6f6f6; border-bottom:3px solid #dddddd; height:180px;}
+.m-inputWap{ width:455px; float:left; margin:30px 0 0 20px;}
+.m-inputWap .span{ width:88px; float:left; font-size:14px; line-height:30px;}
+.m-inputWap .div{ width:350px; float:left;}
+
+.m-btns{ border:0; background-color:#009ef8; color:#fff; font-size:14px; padding:6px 20px; vertical-align:middle;}
+.m-btns:hover, .m-btns:focus {border:0;background-color:#00aefa;color: #eee;text-decoration: none;}
+.m-footer{ background:url(../images/foot_er.gif) no-repeat center;}
+.m-tab .header{height:32px; border-bottom:1px solid #dedede;}
+.m-tab .header li{ height:30px; line-height:30px; border:1px solid #dedede; padding:0 10px; display:inline; float:left; margin-right:10px; border-bottom:none; background-color:#fff; cursor:pointer;}
+.m-tab .header li.hover{border-top:3px solid #0072da; line-height:27px; color:#0072da;}
+.m-tab .cont{ background-color:#fff; border:1px solid #dedede; border-top:none; height:70px;}
+.m-tab .cont2{ background-color:#fff; border:1px solid #dedede; border-top:none; height:auto;}
+.m-inputWap2{ border:1px solid #dedede; margin:20px; background-color:#fff;}
+.m-inputWap2 li{ padding:10px 0;}
+.m-inputWap2 li .span{padding:0; width:110px; float:left; text-align:right; line-height:30px;}
+.m-inputWap2 li .div{ width:340px; float:left; margin-left:10px;}
+.m-inputWap2 li .div440{ width:440px; float:left; margin-left:10px;}
+.m-inputWap2 li .div input{ width:300px;}
+.m-inputWap2 li .div440 input{ width:300px;}
+
+.m-inputWap3 li{ padding:0px 0;}
+.m-inputWap3 li .span{padding:0; width:110px; float:left; text-align:right; line-height:30px;}
+
+
+.span-cont{line-height: 30px;}
+
+.help-inline{color:#FF4444;text-decoration: none;}

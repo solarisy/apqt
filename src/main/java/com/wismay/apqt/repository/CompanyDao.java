@@ -26,6 +26,17 @@ public interface CompanyDao {
 	List<Company> searchByCertcode(String certcode);
 
 	/**
+	 * 根据授权码查询
+	 * 
+	 * @param certcode
+	 * @param authCode
+	 * @return Company
+	 */
+	List<Company> searchByAuthCode(@Param("certcode") String certcode, @Param("authCode") String authCode);
+
+	List<Company> webSearch(@Param("company") Company company);
+
+	/**
 	 * 分页查询
 	 * 
 	 * @param overtime
@@ -51,7 +62,5 @@ public interface CompanyDao {
 	 * 软删除
 	 */
 	void delete(Long id);
-
-	void addPersonal(Long id);
 
 }

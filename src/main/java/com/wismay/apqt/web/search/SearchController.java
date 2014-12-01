@@ -16,7 +16,7 @@ import com.wismay.apqt.service.CompanyService;
 import com.wismay.apqt.service.PersonalService;
 
 /**
- * 查询接口：根据诚信码查询
+ * 查询接口：根据诚信信用码查询
  * 
  * @author Peter
  */

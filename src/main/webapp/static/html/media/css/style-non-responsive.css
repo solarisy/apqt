@@ -8,6 +8,7 @@ Large notebooks and desktops
  	.page-sidebar {
 		position: absolute;
  		width: 225px;
+ 		*left:-1px;
   	}
 
 	.page-sidebar-fixed .page-sidebar {

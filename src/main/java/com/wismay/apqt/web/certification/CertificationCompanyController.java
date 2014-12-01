@@ -39,6 +39,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.wismay.apqt.comm.AuditStatus;
+import com.wismay.apqt.comm.DeletedFlag;
+import com.wismay.apqt.comm.ProxyFlag;
 import com.wismay.apqt.comm.Role;
 import com.wismay.apqt.entity.Company;
 import com.wismay.apqt.entity.Image;
@@ -87,9 +90,11 @@ public class CertificationCompanyController {
 	public String createSave(@ModelAttribute("company") Company company, RedirectAttributes redirectAttributes, Model model) {
 		company.setCreateUser(getCurrentUser().id);
 		company.setCreateDate(new Date());
-		company.setProxy(getCurrentUser().getProxy());
-
+		company.setProxy(getCurrentUser().getProxy() == null ? 0L : getCurrentUser().getProxy());
+		company.setIsProxy(ProxyFlag.NO);
+		company.setAuthCode("123456");
 		company.setAuditStatus(0L);
+		company.setDeleted(DeletedFlag.USED);
 
 		companyService.save(company);
 		return "redirect:/cert/company/imageForm/" + company.getId() + "/create";
@@ -123,8 +128,10 @@ public class CertificationCompanyController {
 		}
 		status.add(2L);// 2：审核不通过；
 		status.add(0L);// 0：未审核
-
 		company.setAuditStatusList(status);
+
+		company.setIsProxy(ProxyFlag.NO);// 只查询公司
+
 		model.addAttribute("list", companyService.search(company));
 
 		return "certification/company/companyAuditList";
@@ -170,21 +177,29 @@ public class CertificationCompanyController {
 	 */
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String list(Model model) {
+
 		Company company = new Company();
-		List<Long> status = new ArrayList<Long>();
 
 		String role = getCurrentUser().getRoles();
 
 		// 代理管理员、代理人员:看到自己代理的公司
 		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
 			company.setProxy(getCurrentUser().getProxy());
+		} else {
+			company.setProxy(null);
 		}
 
 		// 审核状态 0：未审核；1：审核通过；2：审核不通过
-		status.add(1L);
-
+		List<Long> status = new ArrayList<Long>();
+		status.add(AuditStatus.PASS);
 		company.setAuditStatusList(status);
-		model.addAttribute("list", companyService.search(company));
+
+		company.setIsProxy(null);// 代理和公司都查询
+
+		List<Company> companyList = companyService.search(company);
+
+		model.addAttribute("list", companyList);
+
 		return "certification/company/companyList";
 	}
 
@@ -242,18 +257,18 @@ public class CertificationCompanyController {
 		return "customer/companyDetail";
 	}
 
-	// 诚信码
+	// 诚信信用码
 	@RequestMapping(value = "certcode/{id}", method = RequestMethod.GET)
 	public String certcodeFrom(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("company", companyService.getById(id));
 		return "certification/company/certcodeSection";
 	}
 
-	// 诚信码 save
+	// 诚信信用码 save
 	@RequestMapping(value = "certcode/save")
 	public String saveCertcode(@ModelAttribute("company") Company company, RedirectAttributes redirectAttributes) {
 		companyService.update(company);
-		redirectAttributes.addFlashAttribute("message", "诚信码设置成功");
+		redirectAttributes.addFlashAttribute("message", "诚信信用码设置成功");
 		return "redirect:/cert/company/list";
 	}
 
@@ -272,6 +287,34 @@ public class CertificationCompanyController {
 		redirectAttributes.addFlashAttribute("message", "更新成功");
 
 		return "redirect:/cert/company/imageForm/" + company.getId() + "/update";
+	}
+
+	// 审核通过后编辑
+	@RequestMapping(value = "pass/update/{id}", method = RequestMethod.GET)
+	public String updatePassForm(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("company", companyService.getById(id));
+		model.addAttribute("action", "update");
+		return "certification/company/companyPassForm";
+	}
+
+	// 审核通过编辑保存
+	@RequestMapping(value = "pass/update", method = RequestMethod.POST)
+	public String updatePassSave(@Valid @ModelAttribute("company") Company company, RedirectAttributes redirectAttributes) {
+		company.setAuditStatus(AuditStatus.NONE);// 审核通过后编辑，需要将审核状态修改为“未审核”
+		companyService.update(company);
+		redirectAttributes.addFlashAttribute("message", "更新成功");
+
+		return "redirect:/cert/company/pass/imageForm/" + company.getId() + "/update";
+	}
+
+	// to 公司图片 Form
+	@RequestMapping(value = "pass/imageForm/{id}/{action}", method = RequestMethod.GET)
+	public String saveImagesPassForm(@PathVariable("id") Long id, @PathVariable("action") String action, Model model) {
+		Company company = new Company();
+		company.setId(id);
+		model.addAttribute("company", company);
+		model.addAttribute("action", action);
+		return "certification/company/companyImagePassForm";
 	}
 
 	// 删除

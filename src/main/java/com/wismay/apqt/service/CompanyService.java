@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wismay.apqt.comm.MyPage;
+import com.wismay.apqt.comm.ProxyFlag;
 import com.wismay.apqt.entity.Company;
 import com.wismay.apqt.repository.CompanyDao;
 
@@ -25,7 +26,7 @@ public class CompanyService {
 	@Autowired
 	private CompanyDao companyDao;
 
-	// 根据诚信码查询
+	// 根据诚信信用码查询
 	public List<Company> searchByCertcode(String certcode) {
 		return companyDao.searchByCertcode(certcode);
 	}
@@ -34,12 +35,12 @@ public class CompanyService {
 		return companyDao.getById(id);
 	}
 
-	public List<Company> getAll() {
-		return companyDao.getAll();
-	}
-
 	public List<Company> search(Company company) {
 		return companyDao.search(company);
+	}
+
+	public List<Company> webSearch(Company company) {
+		return companyDao.webSearch(company);
 	}
 
 	public List<Company> myCustomer(Company company) {
@@ -69,6 +70,7 @@ public class CompanyService {
 	}
 
 	public void save(Company company) {
+		company.setIsProxy(ProxyFlag.NO);// 不是代理
 		companyDao.save(company);
 	}
 
@@ -81,6 +83,15 @@ public class CompanyService {
 	 */
 	public void delete(Long id) {
 		companyDao.delete(id);
+	}
+
+	public Company searchByAuthCode(String certcode, String authCode) {
+		List<Company> list = companyDao.searchByAuthCode(certcode, authCode);
+		if (list == null || list.size() == 0) {
+			return null;
+		} else {
+			return list.get(0);
+		}
 	}
 
 }

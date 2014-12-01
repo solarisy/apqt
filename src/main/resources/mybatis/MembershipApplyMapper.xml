@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.wismay.apqt.repository.MembershipApplyDao">
+	<resultMap id="membershipApplyMap" type="com.wismay.apqt.entity.MembershipApply">
+		<id property="id" column="id" />
+		<result property="id" column="id" />
+		<result property="updateDate" column="update_date" />
+		<result property="createDate" column="create_date" />
+		<result property="createUser" column="create_user" />
+		<result property="deleted" column="deleted" />
+		<result property="code" column="code" />
+		<result property="registerDate" column="register_date" />
+		<result property="unitName" column="unit_name" />
+		<result property="unitAddress" column="unit_address" />
+		<result property="phone" column="phone" />
+		<result property="zip" column="zip" />
+		<result property="leadName" column="lead_name" />
+		<result property="position" column="position" />
+		<result property="email" column="email" />
+		<result property="contectUserName" column="contect_user_name" />
+		<result property="fax" column="fax" />
+		<result property="baseInfo" column="base_info" />
+		<result property="membershipLevel" column="membership_level" />
+		<result property="recommendOpinion" column="recommend_opinion" />
+		<result property="ratificationStatus" column="ratification_status" />
+		<result property="isSponsor" column="is_sponsor" />
+	</resultMap>
+	
+	<!-- 根据Id查询 -->
+	<select id="getById" parameterType="int" resultMap="membershipApplyMap">
+		select * from t_membership_apply where deleted=1 and id=#{id}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="getAll" resultMap="membershipApplyMap">
+		select * from t_membership_apply where deleted=1
+	</select>
+
+	
+	<!-- 查询 -->
+	<select id="searchPage" parameterType="map" resultMap="membershipApplyMap">
+		select * from t_membership_apply t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+		</where>
+		order by id DESC 
+		LIMIT #{pageStart},#{pageSize}
+	</select>
+	
+	<!-- 查询总数 -->
+	<select id="searchCount" parameterType="map" resultType="Long">
+		select count(1) from  t_membership_apply t 
+		<where>
+			<if test="true">
+				AND t.deleted=1
+			</if>
+		</where>
+	</select>
+
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.wismay.apqt.entity.MembershipApply" useGeneratedKeys="true" keyProperty="id">
+		insert into t_membership_apply (
+			id,update_date,create_date,create_user,deleted,code,register_date,unit_name,unit_address,phone,zip,lead_name,position,email,contect_user_name,fax,base_info,membership_level,recommend_opinion,ratification_status,is_sponsor)
+		values (
+			#{id},#{updateDate},#{createDate},#{createUser},#{deleted},#{code},#{registerDate},#{unitName},#{unitAddress},#{phone},#{zip},#{leadName},#{position},#{email},#{contectUserName},#{fax},#{baseInfo},#{membershipLevel},#{recommendOpinion},#{ratificationStatus},#{isSponsor})
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.wismay.apqt.entity.MembershipApply">
+		update t_membership_apply t set 
+			t.id=#{id} 
+			<if test="id != null">
+			,id=#{id}
+			</if>
+			<if test="updateDate != null">
+			,update_date=#{updateDate}
+			</if>
+			<if test="createDate != null">
+			,create_date=#{createDate}
+			</if>
+			<if test="createUser != null">
+			,create_user=#{createUser}
+			</if>
+			<if test="deleted != null">
+			,deleted=#{deleted}
+			</if>
+			<if test="code != null and code != '' ">
+			,code=#{code}
+			</if>
+			<if test="registerDate != null">
+			,register_date=#{registerDate}
+			</if>
+			<if test="unitName != null and unitName != '' ">
+			,unit_name=#{unitName}
+			</if>
+			<if test="unitAddress != null and unitAddress != '' ">
+			,unit_address=#{unitAddress}
+			</if>
+			<if test="phone != null and phone != '' ">
+			,phone=#{phone}
+			</if>
+			<if test="zip != null and zip != '' ">
+			,zip=#{zip}
+			</if>
+			<if test="leadName != null and leadName != '' ">
+			,lead_name=#{leadName}
+			</if>
+			<if test="position != null and position != '' ">
+			,position=#{position}
+			</if>
+			<if test="email != null and email != '' ">
+			,email=#{email}
+			</if>
+			<if test="contectUserName != null and contectUserName != '' ">
+			,contect_user_name=#{contectUserName}
+			</if>
+			<if test="fax != null and fax != '' ">
+			,fax=#{fax}
+			</if>
+			<if test="baseInfo != null and baseInfo != '' ">
+			,base_info=#{baseInfo}
+			</if>
+			<if test="membershipLevel != null and membershipLevel != '' ">
+			,membership_level=#{membershipLevel}
+			</if>
+			<if test="recommendOpinion != null and recommendOpinion != '' ">
+			,recommend_opinion=#{recommendOpinion}
+			</if>
+			<if test="ratificationStatus != null and ratificationStatus != '' ">
+			,ratification_status=#{ratificationStatus}
+			</if>
+			<if test="isSponsor != null and isSponsor != '' ">
+			,is_sponsor=#{isSponsor}
+			</if>
+		where t.id=#{id}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="int">
+	     update t_membership_apply set deleted=0 where id=#{id}
+	</delete>
+	
+
+</mapper> 

@@ -22,12 +22,21 @@ public interface PersonalDao {
 	List<Personal> searchByCertcode(String certcode);
 
 	/**
+	 * 根据授权码查询
+	 * 
+	 * @param certcode
+	 * @param authCode
+	 * @return Personal
+	 */
+	List<Personal> searchByAuthCode(@Param("certcode") String certcode, @Param("authCode") String authCode);
+
+	/**
 	 * 分页查询
 	 * 
 	 * @param overtime
 	 * @param pageStart
 	 * @param pageSize
-	 * @return
+	 * @return Personal
 	 */
 	List<Personal> searchPage(@Param("personal") Personal personal, @Param("pageStart") int pageStart, @Param("pageSize") int pageSize);
 
@@ -49,5 +58,7 @@ public interface PersonalDao {
 	void delete(Long id);
 
 	List<Personal> search(@Param("personal") Personal personal);
+
+	List<Personal> webSearch(@Param("personal") Personal personal);
 
 }

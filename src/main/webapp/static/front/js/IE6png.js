@@ -1,0 +1,1 @@
+DD_belatedPNG.fix('.s_skb,.order_data .leftBtn,.order_data .rightBtn,.s_seh,.s_map,.s_tel,.seachBox .s_qcz,.seachBox .s_qcp,.icoAll,.mainTabchepiaohover,.mainTabchepiao,.mainTabshike,.mainTabshikehover,.mainTabchezhan,.mainTabchezhanhover,');

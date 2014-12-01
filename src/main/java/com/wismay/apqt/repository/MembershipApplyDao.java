@@ -1,10 +1,8 @@
 package com.wismay.apqt.repository;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
-import com.wismay.apqt.entity.Proxy;
+import com.wismay.apqt.entity.MembershipApply;
 
 /**
  * 通过@MapperScannerConfigurer扫描目录中的所有接口, 动态在Spring Context中生成实现.
@@ -13,39 +11,36 @@ import com.wismay.apqt.entity.Proxy;
  * @author peter
  */
 @MyBatisRepository
-public interface ProxyDao {
-
-	Proxy getById(Long id);
-
-	List<Proxy> getAll();
-
+public interface MembershipApplyDao {
+	
+	MembershipApply getById(Long id);
+	
+	List<MembershipApply> getAll();
+	
 	/**
 	 * 分页查询
-	 * 
 	 * @param overtime
 	 * @param pageStart
 	 * @param pageSize
 	 * @return
 	 */
-	List<Proxy> searchPage(@Param("proxy") Proxy proxy, @Param("pageStart") int pageStart, @Param("pageSize") int pageSize);
-
+	List<MembershipApply> searchPage(@Param("membershipApply")MembershipApply membershipApply,@Param("pageStart")int pageStart,@Param("pageSize")int pageSize);
+	
 	/**
 	 * 分页查询总记录数
-	 * 
 	 * @param overtime
 	 * @return
 	 */
-	Long searchCount(@Param("proxy") Proxy proxy);
-
-	void save(Proxy proxy);
-
-	void update(Proxy proxy);
-
+	Long searchCount(MembershipApply membershipApply);
+	
+	void save(MembershipApply membershipApply);
+	
+	void update(MembershipApply membershipApply);
+	
 	/**
 	 * 软删除
 	 */
 	void delete(Long id);
-
-	List<Proxy> search(@Param("proxy") Proxy proxy);
+	
 
 }

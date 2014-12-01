@@ -39,6 +39,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.wismay.apqt.comm.AuditStatus;
+import com.wismay.apqt.comm.DeletedFlag;
 import com.wismay.apqt.comm.Role;
 import com.wismay.apqt.entity.Company;
 import com.wismay.apqt.entity.Image;
@@ -103,8 +105,10 @@ public class CertificationPersonalController {
 		// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
 		// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
 		status.add(4L);
-
 		company.setAuditStatusList(status);
+
+		company.setIsProxy(null);// 代理和公司都查询
+
 		model.addAttribute("list", companyService.search(company));
 		return "certification/personal/personalCompanyList";
 	}
@@ -130,6 +134,8 @@ public class CertificationPersonalController {
 		status.add(1L);
 		company.setAuditStatusList(status);
 
+		company.setIsProxy(null);// 代理和公司都查询
+
 		model.addAttribute("companyList", companyService.search(company));
 		model.addAttribute("action", "create");
 		return "certification/personal/personalForm";
@@ -140,9 +146,10 @@ public class CertificationPersonalController {
 	public String createSave(@ModelAttribute("personal") Personal personal, RedirectAttributes redirectAttributes, Model model) {
 		personal.setCreateUser(getCurrentUser().id);
 		personal.setCreateDate(new Date());
-		personal.setProxy(getCurrentUser().getProxy());
-
+		personal.setProxy(getCurrentUser().getProxy() == null ? 0L : getCurrentUser().getProxy());
+		personal.setAuthCode("123456");
 		personal.setAuditStatus(0L);
+		personal.setDeleted(DeletedFlag.USED);
 
 		personalService.save(personal);
 
@@ -297,25 +304,25 @@ public class CertificationPersonalController {
 		return "customer/personalDetail";
 	}
 
-	// 诚信码
+	// 诚信信用码
 	@RequestMapping(value = "certcode/{id}", method = RequestMethod.GET)
 	public String certcodeFrom(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("personal", personalService.getById(id));
 		return "certification/personal/certcodeSection";
 	}
 
-	// 诚信码 save
+	// 诚信信用码 save
 	@RequestMapping(value = "certcode/save")
 	public String saveCertcode(@ModelAttribute("personal") Personal personal, RedirectAttributes redirectAttributes) {
 		personalService.update(personal);
-		redirectAttributes.addFlashAttribute("message", "诚信码设置成功");
+		redirectAttributes.addFlashAttribute("message", "诚信信用码设置成功");
 		return "redirect:/cert/personal/list";
 	}
 
 	// 编辑
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
-		// 编辑页面选择个人所属公司，平台管理员则可以选择所有审核通过的公司，代理只能选择自己代理的公司
+		// 编辑页面选择个人所属公司，平台管理员则可以选择所有审核通过的公司，代理只能选择自己和自己代理的公司
 		Company company = new Company();
 		List<Long> status = new ArrayList<Long>();
 		String role = getCurrentUser().getRoles();
@@ -326,8 +333,10 @@ public class CertificationPersonalController {
 			company.setProxy(null);
 		}
 		// 1：审核通过
-		status.add(1L);
+		status.add(AuditStatus.PASS);
 		company.setAuditStatusList(status);
+		company.setIsProxy(null);// 代理和公司都查询
+
 		model.addAttribute("companyList", companyService.search(company));
 
 		model.addAttribute("personal", personalService.getById(id));
@@ -340,6 +349,49 @@ public class CertificationPersonalController {
 	public String updateSave(@Valid @ModelAttribute("personal") Personal personal, RedirectAttributes redirectAttributes) {
 		personalService.update(personal);
 		return "redirect:/cert/personal/imageForm/" + personal.getId() + "/update";
+	}
+
+	// 审核通过后 编辑
+	@RequestMapping(value = "pass/update/{id}", method = RequestMethod.GET)
+	public String updatePassForm(@PathVariable("id") Long id, Model model) {
+		// 编辑页面选择个人所属公司，平台管理员则可以选择所有审核通过的公司，代理只能选择自己和自己代理的公司
+		Company company = new Company();
+		List<Long> status = new ArrayList<Long>();
+		String role = getCurrentUser().getRoles();
+		// 代理管理员、代理人员:看到自己的代理人员提交的信息
+		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
+			company.setProxy(getCurrentUser().getProxy());
+		} else {
+			company.setProxy(null);
+		}
+		// 1：审核通过
+		status.add(AuditStatus.PASS);
+		company.setAuditStatusList(status);
+		company.setIsProxy(null);// 代理和公司都查询
+
+		model.addAttribute("companyList", companyService.search(company));
+
+		model.addAttribute("personal", personalService.getById(id));
+		model.addAttribute("action", "update");
+		return "certification/personal/personalPassForm";
+	}
+
+	// 审核通过后的编辑保存
+	@RequestMapping(value = "pass/update", method = RequestMethod.POST)
+	public String updatePassSave(@Valid @ModelAttribute("personal") Personal personal, RedirectAttributes redirectAttributes) {
+		personal.setAuditStatus(AuditStatus.NONE);// 审核通过后编辑，需要将审核状态修改为“未审核”
+		personalService.update(personal);
+		return "redirect:/cert/personal/pass/imageForm/" + personal.getId() + "/update";
+	}
+
+	// to 个人图片 Form
+	@RequestMapping(value = "pass/imageForm/{id}/{action}", method = RequestMethod.GET)
+	public String saveImagesPassForm(@PathVariable("id") Long id, @PathVariable("action") String action, Model model) {
+		Personal personal = new Personal();
+		personal.setId(id);
+		model.addAttribute("personal", personal);
+		model.addAttribute("action", action);
+		return "certification/personal/personalImagePassForm";
 	}
 
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)

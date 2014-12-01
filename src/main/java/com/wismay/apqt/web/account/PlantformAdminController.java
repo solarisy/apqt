@@ -48,7 +48,7 @@ public class PlantformAdminController {
 		return "account/plantformAdminForm";
 	}
 
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String saveForm(@Valid @ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
 		user.setPlainPassword("123456");
 		user.setRoles(Role.plantform_admin);

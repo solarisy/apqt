@@ -1,5 +1,6 @@
 package com.wismay.apqt.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,9 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.wismay.apqt.comm.MyPage;
-import com.wismay.apqt.entity.Proxy;
-import com.wismay.apqt.repository.ProxyDao;
+import com.wismay.apqt.comm.AuditStatus;
+import com.wismay.apqt.comm.DeletedFlag;
+import com.wismay.apqt.comm.ProxyFlag;
+import com.wismay.apqt.entity.Company;
+import com.wismay.apqt.repository.CompanyDao;
 
 /**
  * 
@@ -23,54 +26,49 @@ public class ProxyService {
 	private static Logger logger = LoggerFactory.getLogger(ProxyService.class);
 
 	@Autowired
-	private ProxyDao proxyDao;
+	private CompanyDao companyDao;
 
-	public Proxy getById(Long id) {
-		return proxyDao.getById(id);
+	public Company getById(Long id) {
+		return companyDao.getById(id);
 	}
 
-	public List<Proxy> getAll() {
-		return proxyDao.getAll();
+	public List<Company> search(Company company) {
+		company.setIsProxy(ProxyFlag.YES);// 只查询代理
+		return companyDao.search(company);
 	}
 
-	public List<Proxy> search(Proxy proxy) {
-		return proxyDao.search(proxy);
+	public void save(Company company) {
+		company.setIsProxy(ProxyFlag.YES);
+		companyDao.save(company);
 	}
 
-	/**
-	 * 分页查询
-	 * 
-	 * @param overtime
-	 * @param pageStart
-	 * @param pageSize
-	 * @return
-	 */
-	public MyPage<Proxy> searchPage(Proxy proxy, int currentPage, int pageSize) {
-		MyPage<Proxy> myPage = new MyPage<Proxy>();
-
-		Long count = proxyDao.searchCount(proxy);
-
-		int pageStart = (currentPage - 1) < 0 ? 0 : (currentPage - 1) * pageSize;
-		List<Proxy> list = proxyDao.searchPage(proxy, pageStart, pageSize);
-
-		myPage.setCount(count);
-		myPage.setContent(list);
-
-		return myPage;
-	}
-
-	public void save(Proxy proxy) {
-		proxyDao.save(proxy);
-	}
-
-	public void update(Proxy proxy) {
-		proxyDao.update(proxy);
+	public void update(Company company) {
+		companyDao.update(company);
 	}
 
 	/**
 	 * 软删除
 	 */
 	public void delete(Long id) {
-		proxyDao.delete(id);
+		companyDao.delete(id);
+	}
+
+	/**
+	 * 查询审核通过的代理
+	 * 
+	 * @return
+	 *         2014-10-16
+	 *         Peter
+	 */
+	public List<Company> listForAuditPass() {
+		Company c = new Company();
+
+		c.setDeleted(DeletedFlag.USED);
+
+		List<Long> status = new ArrayList<Long>();
+		status.add(AuditStatus.PASS);// 审核通过
+		c.setAuditStatusList(status);
+
+		return search(c);
 	}
 }

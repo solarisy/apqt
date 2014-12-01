@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.wismay.apqt.comm.AuditStatus;
 import com.wismay.apqt.comm.Role;
-import com.wismay.apqt.entity.Proxy;
+import com.wismay.apqt.entity.Company;
 import com.wismay.apqt.entity.User;
 import com.wismay.apqt.service.ProxyService;
 import com.wismay.apqt.service.account.AccountService;
@@ -59,11 +60,11 @@ public class ProxyUserController {
 	public String createForm(Model model) {
 		// 如果是平台管理员创建代理用户，则需要选择所属代理；
 		// 如果是代理管理员创建，默认和代理管理员是同一个代理；
-		Proxy p = new Proxy();
+		Company proxy = new Company();
 		List<Long> status = new ArrayList<Long>();
-		status.add(1L);// 审核通过
-		p.setAuditStatusList(status);
-		model.addAttribute("proxyList", proxyService.search(p));
+		status.add(AuditStatus.PASS);// 审核通过
+		proxy.setAuditStatusList(status);
+		model.addAttribute("proxyList", proxyService.search(proxy));
 
 		model.addAttribute("action", "create");
 		return "account/proxyUserForm";
@@ -88,11 +89,11 @@ public class ProxyUserController {
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		// 查询代理列表，初始化下拉框
-		Proxy p = new Proxy();
+		Company proxy = new Company();
 		List<Long> status = new ArrayList<Long>();
-		status.add(1L);// 审核通过
-		p.setAuditStatusList(status);
-		model.addAttribute("proxyList", proxyService.search(p));
+		status.add(AuditStatus.PASS);// 审核通过
+		proxy.setAuditStatusList(status);
+		model.addAttribute("proxyList", proxyService.search(proxy));
 
 		model.addAttribute("user", accountService.getUser(id));
 		model.addAttribute("action", "update");

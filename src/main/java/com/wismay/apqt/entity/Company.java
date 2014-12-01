@@ -16,6 +16,12 @@ public class Company {
 	private Date createDate;
 	private Long createUser;
 	private Long deleted = 1L;
+	private String certcode;
+	private Long auditStatus;
+	private Long proxy;// 0：平台管理员创建的公司信息，否则是代理创建的公司信息
+	private Long isProxy;// 是否是代理：0：不是；1：是
+	private String authCode;// 授权码
+
 	private String orgcode;
 	private String nameCn;
 	private String nameEn;
@@ -26,7 +32,7 @@ public class Company {
 	private Date foundedDate;
 	private String businessScope;
 	private String annualTurnover;
-	private Long employeeNumber;
+	private String employeeNumber;
 	private String legalRepresentative;
 	private String basicBank;
 	private String basicBankAccount;
@@ -37,11 +43,17 @@ public class Company {
 	private String zip;
 	private String contacts;
 	private String contactsPhone;
-	private String certcode;
-	private Long auditStatus = 0L;
-	private Long proxy = 0L;// 0：平台管理员创建的公司信息，否则是代理创建的公司信息
 
-	private Long personalCount = 0L;// 个人数
+	private String certificate;// '获得何种证书';
+	private Date certificateDay;// '证书日期';
+	private String certificateOrg;// '证书颁发机构';
+	private String rewardCertificates;// '奖励证书';
+	private Date rewardCertificatesDay;// '奖励证书颁发日期';
+	private String rewardCertificatesOrg;// '奖励证书颁发机构';
+	private String punishment;// '处罚';
+	private Date punishmentDay;// '处罚日期';
+	private String punishmentOrg;// '处罚机构';
+
 	private Long pcount = 0L;// 个人数(查询时统计)
 
 	private List<Long> auditStatusList;// 查询条件
@@ -52,14 +64,6 @@ public class Company {
 
 	public void setPcount(Long pcount) {
 		this.pcount = pcount;
-	}
-
-	public Long getPersonalCount() {
-		return personalCount;
-	}
-
-	public void setPersonalCount(Long personalCount) {
-		this.personalCount = personalCount;
 	}
 
 	public Long getId() {
@@ -174,11 +178,11 @@ public class Company {
 		this.businessScope = businessScope;
 	}
 
-	public Long getEmployeeNumber() {
+	public String getEmployeeNumber() {
 		return employeeNumber;
 	}
 
-	public void setEmployeeNumber(Long employeeNumber) {
+	public void setEmployeeNumber(String employeeNumber) {
 		this.employeeNumber = employeeNumber;
 	}
 
@@ -303,6 +307,94 @@ public class Company {
 
 	public void setProxy(Long proxy) {
 		this.proxy = proxy;
+	}
+
+	public Long getIsProxy() {
+		return isProxy;
+	}
+
+	public void setIsProxy(Long isProxy) {
+		this.isProxy = isProxy;
+	}
+
+	public String getAuthCode() {
+		return authCode;
+	}
+
+	public void setAuthCode(String authCode) {
+		this.authCode = authCode;
+	}
+
+	public String getCertificate() {
+		return certificate;
+	}
+
+	public void setCertificate(String certificate) {
+		this.certificate = certificate;
+	}
+
+	public Date getCertificateDay() {
+		return certificateDay;
+	}
+
+	public void setCertificateDay(Date certificateDay) {
+		this.certificateDay = certificateDay;
+	}
+
+	public String getCertificateOrg() {
+		return certificateOrg;
+	}
+
+	public void setCertificateOrg(String certificateOrg) {
+		this.certificateOrg = certificateOrg;
+	}
+
+	public String getRewardCertificates() {
+		return rewardCertificates;
+	}
+
+	public void setRewardCertificates(String rewardCertificates) {
+		this.rewardCertificates = rewardCertificates;
+	}
+
+	public Date getRewardCertificatesDay() {
+		return rewardCertificatesDay;
+	}
+
+	public void setRewardCertificatesDay(Date rewardCertificatesDay) {
+		this.rewardCertificatesDay = rewardCertificatesDay;
+	}
+
+	public String getRewardCertificatesOrg() {
+		return rewardCertificatesOrg;
+	}
+
+	public void setRewardCertificatesOrg(String rewardCertificatesOrg) {
+		this.rewardCertificatesOrg = rewardCertificatesOrg;
+	}
+
+	public String getPunishment() {
+		return punishment;
+	}
+
+	public void setPunishment(String punishment) {
+		this.punishment = punishment;
+	}
+
+	public Date getPunishmentDay() {
+		return punishmentDay;
+	}
+
+	public void setPunishmentDay(Date punishmentDay) {
+		this.punishmentDay = punishmentDay;
+	}
+
+	public String getPunishmentOrg() {
+		return punishmentOrg;
+	}
+
+	public void setPunishmentOrg(String punishmentOrg) {
+		this.punishmentOrg = punishmentOrg;
 	}
 
 	@Override

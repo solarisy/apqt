@@ -74,9 +74,9 @@
                 if(!settings.inputID){
                         htmlCode='<span><input id="ehong-code-input" type="text" maxlength="4" /></span>';
                 }
-                htmlCode+='<div id="ehong-code" class="ehong-idcode-val ehong-idcode-val';
+                htmlCode+='<span id="ehong-code" style="font-size: larger;padding:4px 10px 6px 10px;margin-left:10px;cursor: pointer;border: 1px;background-color: #F7FDFF;" class="ehong-idcode-val ehong-idcode-val';
                 htmlCode+=String(randNum);
-                htmlCode+='" href="#" onblur="return false" onfocus="return false" oncontextmenu="return false" onclick="$.idcode.setCode()">' + _setStyle(codeObj) + '</div>' + '<span id="ehong-code-tip-ck" class="ehong-code-val-tip" onclick="$.idcode.setCode()">'+ settings.codeTip +'</span>';
+                htmlCode+='" href="#" onblur="return false" onfocus="return false" oncontextmenu="return false" onclick="$.idcode.setCode()">' + _setStyle(codeObj) + '</span>' + '<span id="ehong-code-tip-ck" class="ehong-code-val-tip" onclick="$.idcode.setCode()">'+ settings.codeTip +'</span>';
                 $(eid).html(htmlCode);
                 _storeData(_set.storeLable, codeObj);           
         }

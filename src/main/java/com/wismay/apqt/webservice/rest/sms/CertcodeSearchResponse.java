@@ -1,4 +1,4 @@
-package com.wismay.apqt.webservice.rest;
+package com.wismay.apqt.webservice.rest.sms;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

@@ -29,7 +29,7 @@ public class PersonalService {
 	@Autowired
 	private CompanyDao companyDao;
 
-	// 根据诚信码查询
+	// 根据诚信信用码查询
 	public List<Personal> searchByCertcode(String certcode) {
 		return personalDao.searchByCertcode(certcode);
 	}
@@ -83,6 +83,10 @@ public class PersonalService {
 		return personalDao.search(personal);
 	}
 
+	public List<Personal> webSearch(Personal personal) {
+		return personalDao.webSearch(personal);
+	}
+
 	/**
 	 * 个人审核
 	 * 
@@ -92,11 +96,23 @@ public class PersonalService {
 	 */
 	public void updateAudit(Personal personal) {
 		personalDao.update(personal);
+	}
 
-		// 如果代理审核通过，公司人数+1
-		if (personal.getAuditStatus() == 1L) {
-			companyDao.addPersonal(personal.getCompany());
+	/**
+	 * 根据授权码查询，如果授权码错误返回null.
+	 * 
+	 * @param certcode
+	 * @param authCode
+	 * @return
+	 *         2014-10-17
+	 *         peter
+	 */
+	public Personal searchByAuthCode(String certcode, String authCode) {
+		List<Personal> list = personalDao.searchByAuthCode(certcode, authCode);
+		if (list == null || list.size() == 0) {
+			return null;
+		} else {
+			return list.get(0);
 		}
-
 	}
 }

@@ -70,7 +70,7 @@
 							<li>认证管理<i class="icon-angle-right"></i></li>
 							<li>个人认证<i class="icon-angle-right"></i></li>
 							<li><a href="${ctx}/cert/personal/list">个人列表</a><i class="icon-angle-right"></i></li>
-							<li>诚信码</li>
+							<li>诚信信用码</li>
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
 
@@ -91,7 +91,7 @@
 
 							<div class="portlet-title">
 
-								<div class="caption"><i class="icon-reorder"></i>设置诚信码</div>
+								<div class="caption"><i class="icon-reorder"></i>设置诚信信用码</div>
 
 								<div class="tools">
 
@@ -113,7 +113,7 @@
 
 									</div>
 									<div class="control-group">
-										<label class="control-label">诚信码<span class="required">*</span></label>
+										<label class="control-label">诚信信用码<span class="required">*</span></label>
 										<div class="controls">
 											<input type="text" name="certcode" value="${personal.certcode}" id="certcode" data-required="1" class="span6 m-wrap"/>
 										</div>

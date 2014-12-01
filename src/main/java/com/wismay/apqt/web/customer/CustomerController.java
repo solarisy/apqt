@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.wismay.apqt.comm.AuditStatus;
 import com.wismay.apqt.comm.Role;
 import com.wismay.apqt.entity.Company;
 import com.wismay.apqt.entity.Personal;
@@ -49,21 +50,25 @@ public class CustomerController {
 	@RequestMapping(value = "mycustomer", method = RequestMethod.GET)
 	public String customerlist(Model model) {
 		Company company = new Company();
-		List<Long> status = new ArrayList<Long>();
 
 		String role = getCurrentUser().getRoles();
 
 		// 代理管理员、代理人员:看到自己的代理人员提交的信息
 		if (role.contains(Role.proxy_admin) || role.contains(Role.proxy_user)) {
 			company.setProxy(getCurrentUser().getProxy());
+		} else {
+			company.setProxy(null);
 		}
 
-		// 审核状态 0：未审核(代理提交)；1：未审核(平台管理员提交)；2：代理管理员审核通过；
-		// 3：代理管理员审核不通过；4：平台管理员审核通过；5：平台管理员神不通过。
-		status.add(1L);
-
+		// 只看审核通过的客户信息
+		List<Long> status = new ArrayList<Long>();
+		status.add(AuditStatus.PASS);
 		company.setAuditStatusList(status);
+
+		company.setIsProxy(null);
+
 		model.addAttribute("list", companyService.myCustomer(company));
+
 		return "customer/mycustomerList";
 	}
 

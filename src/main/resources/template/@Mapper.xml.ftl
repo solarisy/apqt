@@ -49,7 +49,7 @@
 		insert into ${class.tableName} (
 			[#list class.fields as field]${field.columnName},[/#list])
 		values (
-			[#list class.fields as field]${r"#{"}${field.Name}${r"}"},[/#list])
+			[#list class.fields as field]${r"#{"}${field.name}${r"}"},[/#list])
 	</insert>
 	
 	<!-- 更新 -->
@@ -57,9 +57,15 @@
 		update ${class.tableName} t set 
 			t.id=${r"#{id}"} 
 			[#list class.fields as field]
+			[#if field.type=="String"]
 			<if test="${field.name} != null and ${field.name} != '' ">
-				,${field.columnName}=${r"#{"}${field.name}${r"}"}
+			,${field.columnName}=${r"#{"}${field.name}${r"}"}
 			</if>
+			[#else]
+			<if test="${field.name} != null">
+			,${field.columnName}=${r"#{"}${field.name}${r"}"}
+			</if>
+			[/#if]
 			[/#list]
 		where t.id=${r"#{id}"}
 	</update>

@@ -36,6 +36,28 @@
 		<result property="proxy" column="proxy" />
 		<result property="company" column="company" />
 		<result property="companyName" column="company_name" />
+		<result property="authCode" column="auth_code" />
+		<result property="dutyDay" column="duty_day" />
+		<result property="jobTitle" column="job_title" />
+		<result property="jobNumber" column="job_number" />
+		<result property="birthday" column="birthday" />
+		<result property="educationDay" column="education_day" />
+		<result property="educationSchool" column="education_school" />
+		<result property="educationSchoolId" column="education_school_id" />
+		<result property="degreeDay" column="degree_day" />
+		<result property="degreeSchool" column="degree_school" />
+		<result property="degreeSchoolId" column="degree_school_id" />
+		<result property="resume" column="resume" />
+		<result property="certificate" column="certificate" />
+		<result property="certificateDay" column="certificate_day" />
+		<result property="certificateOrg" column="certificate_org" />
+		<result property="rewardCertificates" column="reward_certificates" />
+		<result property="rewardCertificatesDay" column="reward_certificates_day" />
+		<result property="rewardCertificatesOrg" column="reward_certificates_org" />
+		<result property="punishment" column="punishment" />
+		<result property="punishmentDay" column="punishment_day" />
+		<result property="punishmentOrg" column="punishment_org" />
+		<result property="website" column="website" />
 	</resultMap>
 	
 	<!-- 根据Id查询 -->
@@ -97,112 +119,199 @@
 		</where>
 	</select>
 
-	<!-- 查询 -->
+	<!-- 根据认证码 查询 -->
 	<select id="searchByCertcode" resultMap="personalMap">
 		select * from t_personal t where  t.deleted=1 AND t.audit_status=1 AND t.certcode=#{certcode}
+	</select>
+	
+	<!-- 根据认证码和授权码 查询 -->
+	<select id="searchByAuthCode" resultMap="personalMap">
+		select * from t_personal t where  t.deleted=1 AND t.audit_status=1 AND t.certcode=#{certcode} AND t.auth_code=#{authCode}
+	</select>
+	
+	<!-- web 查询 -->
+	<select id="webSearch" parameterType="map" resultMap="personalMap">
+		select * from t_personal t 
+		<where>
+			<if test="true">
+				AND t.deleted=1 AND t.audit_status=1
+			</if>
+			<if test="personal.certcode != null ">
+				AND t.certcode = #{personal.certcode }
+			</if>
+			<if test="personal.name != null ">
+				AND t.name = #{personal.name }
+			</if>
+			<if test="personal.idNumber != null ">
+				AND t.id_number = #{personal.idNumber }
+			</if>
+		</where>
 	</select>
 	
 	<!-- 保存 -->
 	<insert id="save" parameterType="com.wismay.apqt.entity.Personal" useGeneratedKeys="true" keyProperty="id">
 		insert into t_personal (
-			id,update_date,create_date,create_user,deleted,id_number,name,sex,country,ethnic,unit,unit_address,duty,height,blood,marriage,children,registered_address,address,zip,mobilephone,phone,qq,email,education,degree,certcode,audit_status,proxy,company)
+			id,update_date,create_date,create_user,deleted,auth_code,audit_status,certcode,proxy,company,id_number,name,sex,country,ethnic,unit,unit_address,duty,height,blood,marriage,children,registered_address,address,zip,mobilephone,phone,qq,email,education,degree,duty_day,job_title,job_number,birthday,education_day,education_school,education_school_id,degree_day,degree_school,degree_school_id,resume,certificate,certificate_day,certificate_org,reward_certificates,reward_certificates_day,reward_certificates_org,punishment,punishment_day,punishment_org,website)
 		values (
-			#{id},#{updateDate},#{createDate},#{createUser},#{deleted},#{idNumber},#{name},#{sex},#{country},#{ethnic},#{unit},#{unitAddress},#{duty},#{height},#{blood},#{marriage},#{children},#{registeredAddress},#{address},#{zip},#{mobilephone},#{phone},#{qq},#{email},#{education},#{degree},#{certcode},#{auditStatus},#{proxy},#{company})
+			#{id},#{updateDate},#{createDate},#{createUser},#{deleted},#{authCode},#{auditStatus},#{certcode},#{proxy},#{company},#{idNumber},#{name},#{sex},#{country},#{ethnic},#{unit},#{unitAddress},#{duty},#{height},#{blood},#{marriage},#{children},#{registeredAddress},#{address},#{zip},#{mobilephone},#{phone},#{qq},#{email},#{education},#{degree},#{dutyDay},#{jobTitle},#{jobNumber},#{birthday},#{educationDay},#{educationSchool},#{educationSchoolId},#{degreeDay},#{degreeSchool},#{degreeSchoolId},#{resume},#{certificate},#{certificateDay},#{certificateOrg},#{rewardCertificates},#{rewardCertificatesDay},#{rewardCertificatesOrg},#{punishment},#{punishmentDay},#{punishmentOrg},#{website})
 	</insert>
 	
 	<!-- 更新 -->
 	<update id="update" parameterType="com.wismay.apqt.entity.Personal">
 		update t_personal t set 
 			t.id=#{id} 
-			<if test="id != null and id != '' ">
-				,id=#{id}
+			<if test="updateDate != null">
+			,update_date=#{updateDate}
 			</if>
-			<if test="updateDate != null and updateDate != '' ">
-				,update_date=#{updateDate}
+			<if test="createDate != null">
+			,create_date=#{createDate}
 			</if>
-			<if test="createDate != null and createDate != '' ">
-				,create_date=#{createDate}
+			<if test="createUser != null">
+			,create_user=#{createUser}
 			</if>
-			<if test="createUser != null and createUser != '' ">
-				,create_user=#{createUser}
+			<if test="deleted != null">
+			,deleted=#{deleted}
 			</if>
-			<if test="deleted != null and deleted != '' ">
-				,deleted=#{deleted}
+			<if test="authCode != null and authCode != '' ">
+			,auth_code=#{authCode}
 			</if>
-			<if test="idNumber != null and idNumber != '' ">
-				,id_number=#{idNumber}
-			</if>
-			<if test="name != null and name != '' ">
-				,name=#{name}
-			</if>
-			<if test="sex != null and sex != '' ">
-				,sex=#{sex}
-			</if>
-			<if test="country != null and country != '' ">
-				,country=#{country}
-			</if>
-			<if test="ethnic != null and ethnic != '' ">
-				,ethnic=#{ethnic}
-			</if>
-			<if test="unit != null and unit != '' ">
-				,unit=#{unit}
-			</if>
-			<if test="unitAddress != null and unitAddress != '' ">
-				,unit_address=#{unitAddress}
-			</if>
-			<if test="duty != null and duty != '' ">
-				,duty=#{duty}
-			</if>
-			<if test="height != null and height != '' ">
-				,height=#{height}
-			</if>
-			<if test="blood != null and blood != '' ">
-				,blood=#{blood}
-			</if>
-			<if test="marriage != null and marriage != '' ">
-				,marriage=#{marriage}
-			</if>
-			<if test="children != null and children != '' ">
-				,children=#{children}
-			</if>
-			<if test="registeredAddress != null and registeredAddress != '' ">
-				,registered_address=#{registeredAddress}
-			</if>
-			<if test="address != null and address != '' ">
-				,address=#{address}
-			</if>
-			<if test="zip != null and zip != '' ">
-				,zip=#{zip}
-			</if>
-			<if test="mobilephone != null and mobilephone != '' ">
-				,mobilephone=#{mobilephone}
-			</if>
-			<if test="phone != null and phone != '' ">
-				,phone=#{phone}
-			</if>
-			<if test="qq != null and qq != '' ">
-				,qq=#{qq}
-			</if>
-			<if test="email != null and email != '' ">
-				,email=#{email}
-			</if>
-			<if test="education != null and education != '' ">
-				,education=#{education}
-			</if>
-			<if test="degree != null and degree != '' ">
-				,degree=#{degree}
+			<if test="auditStatus != null">
+			,audit_status=#{auditStatus}
 			</if>
 			<if test="certcode != null and certcode != '' ">
-				,certcode=#{certcode}
+			,certcode=#{certcode}
 			</if>
-			<if test="auditStatus != null and auditStatus != '' ">
-				,audit_status=#{auditStatus}
+			<if test="proxy != null">
+			,proxy=#{proxy}
 			</if>
-			<if test="proxy != null and proxy != '' ">
-				,proxy=#{proxy}
+			<if test="company != null">
+			,company=#{company}
 			</if>
-			<if test="company != null and company != '' ">
-				,company=#{company}
+			<if test="idNumber != null and idNumber != '' ">
+			,id_number=#{idNumber}
+			</if>
+			<if test="name != null and name != '' ">
+			,name=#{name}
+			</if>
+			<if test="sex != null and sex != '' ">
+			,sex=#{sex}
+			</if>
+			<if test="country != null and country != '' ">
+			,country=#{country}
+			</if>
+			<if test="ethnic != null and ethnic != '' ">
+			,ethnic=#{ethnic}
+			</if>
+			<if test="unit != null and unit != '' ">
+			,unit=#{unit}
+			</if>
+			<if test="unitAddress != null and unitAddress != '' ">
+			,unit_address=#{unitAddress}
+			</if>
+			<if test="duty != null and duty != '' ">
+			,duty=#{duty}
+			</if>
+			<if test="height != null and height != '' ">
+			,height=#{height}
+			</if>
+			<if test="blood != null and blood != '' ">
+			,blood=#{blood}
+			</if>
+			<if test="marriage != null and marriage != '' ">
+			,marriage=#{marriage}
+			</if>
+			<if test="children != null and children != '' ">
+			,children=#{children}
+			</if>
+			<if test="registeredAddress != null and registeredAddress != '' ">
+			,registered_address=#{registeredAddress}
+			</if>
+			<if test="address != null and address != '' ">
+			,address=#{address}
+			</if>
+			<if test="zip != null and zip != '' ">
+			,zip=#{zip}
+			</if>
+			<if test="mobilephone != null and mobilephone != '' ">
+			,mobilephone=#{mobilephone}
+			</if>
+			<if test="phone != null and phone != '' ">
+			,phone=#{phone}
+			</if>
+			<if test="qq != null and qq != '' ">
+			,qq=#{qq}
+			</if>
+			<if test="email != null and email != '' ">
+			,email=#{email}
+			</if>
+			<if test="education != null and education != '' ">
+			,education=#{education}
+			</if>
+			<if test="degree != null and degree != '' ">
+			,degree=#{degree}
+			</if>
+			<if test="dutyDay != null">
+			,duty_day=#{dutyDay}
+			</if>
+			<if test="jobTitle != null and jobTitle != '' ">
+			,job_title=#{jobTitle}
+			</if>
+			<if test="jobNumber != null and jobNumber != '' ">
+			,job_number=#{jobNumber}
+			</if>
+			<if test="birthday != null">
+			,birthday=#{birthday}
+			</if>
+			<if test="educationDay != null">
+			,education_day=#{educationDay}
+			</if>
+			<if test="educationSchool != null and educationSchool != '' ">
+			,education_school=#{educationSchool}
+			</if>
+			<if test="educationSchoolId != null and educationSchoolId != '' ">
+			,education_school_id=#{educationSchoolId}
+			</if>
+			<if test="degreeDay != null">
+			,degree_day=#{degreeDay}
+			</if>
+			<if test="degreeSchool != null and degreeSchool != '' ">
+			,degree_school=#{degreeSchool}
+			</if>
+			<if test="degreeSchoolId != null and degreeSchoolId != '' ">
+			,degree_school_id=#{degreeSchoolId}
+			</if>
+			<if test="resume != null and resume != '' ">
+			,resume=#{resume}
+			</if>
+			<if test="certificate != null and certificate != '' ">
+			,certificate=#{certificate}
+			</if>
+			<if test="certificateDay != null">
+			,certificate_day=#{certificateDay}
+			</if>
+			<if test="certificateOrg != null and certificateOrg != '' ">
+			,certificate_org=#{certificateOrg}
+			</if>
+			<if test="rewardCertificates != null and rewardCertificates != '' ">
+			,reward_certificates=#{rewardCertificates}
+			</if>
+			<if test="rewardCertificatesDay != null">
+			,reward_certificates_day=#{rewardCertificatesDay}
+			</if>
+			<if test="rewardCertificatesOrg != null and rewardCertificatesOrg != '' ">
+			,reward_certificates_org=#{rewardCertificatesOrg}
+			</if>
+			<if test="punishment != null and punishment != '' ">
+			,punishment=#{punishment}
+			</if>
+			<if test="punishmentDay != null">
+			,punishment_day=#{punishmentDay}
+			</if>
+			<if test="punishmentOrg != null and punishmentOrg != '' ">
+			,punishment_org=#{punishmentOrg}
+			</if>
+			<if test="website != null and website != '' ">
+			,website=#{website}
 			</if>
 		where t.id=#{id}
 	</update>

@@ -21,6 +21,7 @@ public class ${class.name}Service {
 
 	private static Logger logger = LoggerFactory.getLogger(${class.name}Service.class);
 
+	@Autowired
 	private ${class.name}Dao ${class.name?uncap_first}Dao;
 
 	public ${class.name} getById(Long id) {

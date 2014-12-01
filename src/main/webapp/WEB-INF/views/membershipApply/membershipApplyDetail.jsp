@@ -1,0 +1,35 @@
+<%@ page contentType="text/html;charset=UTF-8" %><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><c:set var="ctx" value="${pageContext.request.contextPath}"/><!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>	<meta charset="utf-8" /></head><!-- END HEAD -->
+<!-- BEGIN BODY --><body class="page-header-fixed">
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- BEGIN SIDEBAR -->
+			<!-- Import Menu -->        			<jsp:include page="../../layouts/menu.jsp"></jsp:include>
+		<!-- END SIDEBAR -->
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->        
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN STYLE CUSTOMIZER -->						<!-- Import Style Setting Button -->        						<jsp:include page="../../layouts/style-setting.jsp"></jsp:include>
+						<!-- END BEGIN STYLE CUSTOMIZER -->  
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->						<h3 class="page-title">会员单位申请</h3>						<ul class="breadcrumb">							<li>								<i class="icon-home"></i>								<a href="${ctx}">首页</a> 								<i class="icon-angle-right"></i>							</li>							<li><a href="${ctx}/membershipApply/list">会员单位申请列表</a><i class="icon-angle-right"></i></li>							<li>会员单位申请信息</li>													</ul>						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->          
+				<div class="row-fluid">					<div class="span12">						<!-- BEGIN VALIDATION STATES-->						<div class="portlet box purple">							<div class="portlet-title">								<div class="caption"><i class="icon-reorder"></i>会员单位申请信息</div>								<div class="tools">									<a href="javascript:;" class="collapse"></a>								</div>							</div>							<div class="portlet-body form">							<div class="form-horizontal form-view">								<!-- BEGIN FORM-->								<div class="row-fluid">									<div class="span6">										<div class="control-group">											<label class="control-label">单位名称</label>											<div class="controls">												<span class="text">${obj.unitName}</span>											</div>										</div>									</div>									<div class="span6">										<div class="control-group">											<label class="control-label">电话</label>											<div class="controls">												<span class="text">${obj.phone}</span>											</div>										</div>									</div>								</div>								<div class="row-fluid">									<div class="span6">										<div class="control-group">											<label class="control-label">单位地址</label>											<div class="controls">												<span class="text">${obj.unitAddress}</span>											</div>										</div>									</div>									<div class="span6">										<div class="control-group">											<label class="control-label">邮编</label>											<div class="controls">												<span class="text">${obj.zip}</span>											</div>										</div>									</div>								</div>								<div class="row-fluid">									<div class="span6">										<div class="control-group">											<label class="control-label">领导人姓名</label>											<div class="controls">												<span class="text">${obj.leadName}</span>											</div>										</div>									</div>									<div class="span6">										<div class="control-group">											<label class="control-label">职务</label>											<div class="controls">												<span class="text">${obj.position}</span>											</div>										</div>									</div>								</div>								<div class="row-fluid">									<div class="span6">										<div class="control-group">											<label class="control-label">EMAIL</label>											<div class="controls">												<span class="text">${obj.email}</span>											</div>										</div>									</div>									<div class="span6">										<div class="control-group">											<label class="control-label">联系人姓名</label>											<div class="controls">												<span class="text">${obj.contectUserName}</span>											</div>										</div>									</div>								</div>								<div class="row-fluid">									<div class="span6">										<div class="control-group">											<label class="control-label">电话及传真</label>											<div class="controls">												<span class="text">${obj.fax}</span>											</div>										</div>									</div>									<div class="span6">										<div class="control-group">											<label class="control-label">登记日期</label>											<div class="controls">												<span class="text"><fmt:formatDate value="${obj.registerDate}" pattern="yyyy-MM-dd"></fmt:formatDate></span>											</div>										</div>									</div>								</div>								<div class="row-fluid">									<div class="span6">										<div class="control-group">											<label class="control-label">企业基本情况</label>											<div class="controls">												<span class="text">${obj.baseInfo}</span>											</div>										</div>									</div>									<div class="span6">										<div class="control-group">											<label class="control-label">申请会员等级</label>											<div class="controls">												<span class="text">${obj.membershipLevel}</span>											</div>										</div>									</div>								</div>								<div class="row-fluid">									<div class="span6">										<div class="control-group">											<label class="control-label">推荐单位意见</label>											<div class="controls">												<span class="text">${obj.recommendOpinion}</span>											</div>										</div>									</div>									<div class="span6">										<div class="control-group">											<label class="control-label">批准情况</label>											<div class="controls">												<span class="text">${obj.ratificationStatus}</span>											</div>										</div>									</div>								</div>								<div class="row-fluid">									<div class="span6">										<div class="control-group">											<label class="control-label">是否愿意成为诚信联盟的发起单位</label>											<div class="controls">												<span class="text">${obj.isSponsor}</span>											</div>										</div>									</div>								</div>								<div class="form-actions">									<button type="button" class="btn" onclick="history.back()">返回</button>								</div>								<!-- END FORM-->							</div>							</div>						</div>						<!-- END VALIDATION STATES-->					</div>				</div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>	</body>
+	
+</html>
