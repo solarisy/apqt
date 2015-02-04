@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.wismay.apqt.comm.DeletedFlag;
-import com.wismay.apqt.entity.MembershipApply;
-import com.wismay.apqt.service.MembershipApplyService;
+import com.wismay.apqt.entity.MembershipApply2;
+import com.wismay.apqt.service.MembershipApply2Service;
 import com.wismay.apqt.service.account.ShiroDbRealm.ShiroUser;
 
 /**
@@ -42,7 +42,7 @@ public class MembershipApplyWebController {
 	}
 
 	@Autowired
-	private MembershipApplyService membershipApplyService;
+	private MembershipApply2Service membershipApplyService;
 
 	// to 新增
 	@RequestMapping(value = "create")
@@ -52,13 +52,12 @@ public class MembershipApplyWebController {
 
 	// 新增保存
 	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public String save(@Valid @ModelAttribute("membershipApply") MembershipApply membershipApply, Model model) {
+	public String save(@Valid @ModelAttribute("membershipApply") MembershipApply2 membershipApply, Model model) {
 		try {
 			membershipApply.setCreateUser(0L);
 			membershipApply.setCreateDate(new Date());
 			membershipApply.setUpdateDate(new Date());
 			membershipApply.setDeleted(DeletedFlag.USED);
-			membershipApply.setRegisterDate(new Date());
 
 			membershipApplyService.save(membershipApply);
 

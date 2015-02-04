@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.wismay.apqt.repository.MembershipApply2Dao">
+	<resultMap id="membershipApply2Map" type="com.wismay.apqt.entity.MembershipApply2">
+		<id property="id" column="id" />
+		<result property="id" column="id" />
+		<result property="updateDate" column="update_date" />
+		<result property="createDate" column="create_date" />
+		<result property="createUser" column="create_user" />
+		<result property="deleted" column="deleted" />
+		<result property="code" column="code" />
+		<result property="unitName" column="unit_name" />
+		<result property="unitRegNumber" column="unit_reg_number" />
+		<result property="unitProperty" column="unit_property" />
+		<result property="unitAddress" column="unit_address" />
+		<result property="unitZip" column="unit_zip" />
+		<result property="unitGoverning" column="unit_governing" />
+		<result property="unitUrl" column="unit_url" />
+		<result property="ceoName" column="ceo_name" />
+		<result property="ceoSex" column="ceo_sex" />
+		<result property="ceoAge" column="ceo_age" />
+		<result property="ceoEducation" column="ceo_education" />
+		<result property="ceoJobTitle" column="ceo_job_title" />
+		<result property="ceoEthnic" column="ceo_ethnic" />
+		<result property="ceoIdNumber" column="ceo_id_number" />
+		<result property="ceoPosition" column="ceo_position" />
+		<result property="ceoPhone" column="ceo_phone" />
+		<result property="ceoMobilePhone" column="ceo_mobile_phone" />
+		<result property="cvStart" column="cv_start" />
+		<result property="cvEnd" column="cv_end" />
+		<result property="cvUnit" column="cv_unit" />
+		<result property="cvPosition" column="cv_position" />
+		<result property="cvPartTime" column="cv_part_time" />
+		<result property="cvStart2" column="cv_start2" />
+		<result property="cvEnd2" column="cv_end2" />
+		<result property="cvUnit2" column="cv_unit2" />
+		<result property="cvPosition2" column="cv_position2" />
+		<result property="cvPartTime2" column="cv_part_time2" />
+		<result property="cvStart3" column="cv_start3" />
+		<result property="cvEnd3" column="cv_end3" />
+		<result property="cvUnit3" column="cv_unit3" />
+		<result property="cvPosition3" column="cv_position3" />
+		<result property="cvPartTime3" column="cv_part_time3" />
+		<result property="cvStart4" column="cv_start4" />
+		<result property="cvEnd4" column="cv_end4" />
+		<result property="cvUnit4" column="cv_unit4" />
+		<result property="cvPosition4" column="cv_position4" />
+		<result property="cvPartTime4" column="cv_part_time4" />
+		<result property="cvStart5" column="cv_start5" />
+		<result property="cvEnd5" column="cv_end5" />
+		<result property="cvUnit5" column="cv_unit5" />
+		<result property="cvPosition5" column="cv_position5" />
+		<result property="cvPartTime5" column="cv_part_time5" />
+		<result property="cvStart6" column="cv_start6" />
+		<result property="cvEnd6" column="cv_end6" />
+		<result property="cvUnit6" column="cv_unit6" />
+		<result property="cvPosition6" column="cv_position6" />
+		<result property="cvPartTime6" column="cv_part_time6" />
+		<result property="cvStart7" column="cv_start7" />
+		<result property="cvEnd7" column="cv_end7" />
+		<result property="cvUnit7" column="cv_unit7" />
+		<result property="cvPosition7" column="cv_position7" />
+		<result property="cvPartTime7" column="cv_part_time7" />
+		<result property="contectsName" column="contects_name" />
+		<result property="contectsPosition" column="contects_position" />
+		<result property="contectsMobilePhone" column="contects_mobile_phone" />
+		<result property="contectsPhone" column="contects_phone" />
+		<result property="contectsFax" column="contects_fax" />
+		<result property="contectsEmail" column="contects_email" />
+		<result property="unitSummary" column="unit_summary" />
+		<result property="unitProduct" column="unit_product" />
+		<result property="unitAnnualTurnover" column="unit_annual_turnover" />
+		<result property="unitIdea" column="unit_idea" />
+		<result property="approvalComments" column="approval_comments" />
+		<result property="approvalUserName" column="approval_user_name" />
+		<result property="approvalUserId" column="approval_user_id" />
+		<result property="approvalDate" column="approval_date" />
+	</resultMap>
+	
+	<!-- 根据Id查询 -->
+	<select id="getById" parameterType="int" resultMap="membershipApply2Map">
+		select * from t_membership_apply2 where deleted=1 and id=#{id}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="getAll" resultMap="membershipApply2Map">
+		select * from t_membership_apply2 where deleted=1
+	</select>	
+
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.wismay.apqt.entity.MembershipApply2" useGeneratedKeys="true" keyProperty="id">
+		insert into t_membership_apply2 (
+			id,update_date,create_date,create_user,deleted,code,unit_name,unit_reg_number,unit_property,unit_address,unit_zip,unit_governing,unit_url,ceo_name,ceo_sex,ceo_age,ceo_education,ceo_job_title,ceo_ethnic,ceo_id_number,ceo_position,ceo_phone,ceo_mobile_phone,cv_start,cv_end,cv_unit,cv_position,cv_part_time,cv_start2,cv_end2,cv_unit2,cv_position2,cv_part_time2,cv_start3,cv_end3,cv_unit3,cv_position3,cv_part_time3,cv_start4,cv_end4,cv_unit4,cv_position4,cv_part_time4,cv_start5,cv_end5,cv_unit5,cv_position5,cv_part_time5,cv_start6,cv_end6,cv_unit6,cv_position6,cv_part_time6,cv_start7,cv_end7,cv_unit7,cv_position7,cv_part_time7,contects_name,contects_position,contects_mobile_phone,contects_phone,contects_fax,contects_email,unit_summary,unit_product,unit_annual_turnover,unit_idea,approval_comments,approval_user_name,approval_user_id,approval_date)
+		values (
+			#{id},#{updateDate},#{createDate},#{createUser},#{deleted},#{code},#{unitName},#{unitRegNumber},#{unitProperty},#{unitAddress},#{unitZip},#{unitGoverning},#{unitUrl},#{ceoName},#{ceoSex},#{ceoAge},#{ceoEducation},#{ceoJobTitle},#{ceoEthnic},#{ceoIdNumber},#{ceoPosition},#{ceoPhone},#{ceoMobilePhone},#{cvStart},#{cvEnd},#{cvUnit},#{cvPosition},#{cvPartTime},#{cvStart2},#{cvEnd2},#{cvUnit2},#{cvPosition2},#{cvPartTime2},#{cvStart3},#{cvEnd3},#{cvUnit3},#{cvPosition3},#{cvPartTime3},#{cvStart4},#{cvEnd4},#{cvUnit4},#{cvPosition4},#{cvPartTime4},#{cvStart5},#{cvEnd5},#{cvUnit5},#{cvPosition5},#{cvPartTime5},#{cvStart6},#{cvEnd6},#{cvUnit6},#{cvPosition6},#{cvPartTime6},#{cvStart7},#{cvEnd7},#{cvUnit7},#{cvPosition7},#{cvPartTime7},#{contectsName},#{contectsPosition},#{contectsMobilePhone},#{contectsPhone},#{contectsFax},#{contectsEmail},#{unitSummary},#{unitProduct},#{unitAnnualTurnover},#{unitIdea},#{approvalComments},#{approvalUserName},#{approvalUserId},#{approvalDate})
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.wismay.apqt.entity.MembershipApply2">
+		update t_membership_apply2 t set 
+			t.id=#{id} 
+			<if test="id != null">
+			,id=#{id}
+			</if>
+			<if test="updateDate != null">
+			,update_date=#{updateDate}
+			</if>
+			<if test="createDate != null">
+			,create_date=#{createDate}
+			</if>
+			<if test="createUser != null">
+			,create_user=#{createUser}
+			</if>
+			<if test="deleted != null">
+			,deleted=#{deleted}
+			</if>
+			<if test="code != null and code != '' ">
+			,code=#{code}
+			</if>
+			<if test="unitName != null and unitName != '' ">
+			,unit_name=#{unitName}
+			</if>
+			<if test="unitRegNumber != null and unitRegNumber != '' ">
+			,unit_reg_number=#{unitRegNumber}
+			</if>
+			<if test="unitProperty != null and unitProperty != '' ">
+			,unit_property=#{unitProperty}
+			</if>
+			<if test="unitAddress != null and unitAddress != '' ">
+			,unit_address=#{unitAddress}
+			</if>
+			<if test="unitZip != null and unitZip != '' ">
+			,unit_zip=#{unitZip}
+			</if>
+			<if test="unitGoverning != null and unitGoverning != '' ">
+			,unit_governing=#{unitGoverning}
+			</if>
+			<if test="unitUrl != null and unitUrl != '' ">
+			,unit_url=#{unitUrl}
+			</if>
+			<if test="ceoName != null and ceoName != '' ">
+			,ceo_name=#{ceoName}
+			</if>
+			<if test="ceoSex != null and ceoSex != '' ">
+			,ceo_sex=#{ceoSex}
+			</if>
+			<if test="ceoAge != null and ceoAge != '' ">
+			,ceo_age=#{ceoAge}
+			</if>
+			<if test="ceoEducation != null and ceoEducation != '' ">
+			,ceo_education=#{ceoEducation}
+			</if>
+			<if test="ceoJobTitle != null and ceoJobTitle != '' ">
+			,ceo_job_title=#{ceoJobTitle}
+			</if>
+			<if test="ceoEthnic != null and ceoEthnic != '' ">
+			,ceo_ethnic=#{ceoEthnic}
+			</if>
+			<if test="ceoIdNumber != null and ceoIdNumber != '' ">
+			,ceo_id_number=#{ceoIdNumber}
+			</if>
+			<if test="ceoPosition != null and ceoPosition != '' ">
+			,ceo_position=#{ceoPosition}
+			</if>
+			<if test="ceoPhone != null and ceoPhone != '' ">
+			,ceo_phone=#{ceoPhone}
+			</if>
+			<if test="ceoMobilePhone != null and ceoMobilePhone != '' ">
+			,ceo_mobile_phone=#{ceoMobilePhone}
+			</if>
+			<if test="cvStart != null">
+			,cv_start=#{cvStart}
+			</if>
+			<if test="cvEnd != null">
+			,cv_end=#{cvEnd}
+			</if>
+			<if test="cvUnit != null and cvUnit != '' ">
+			,cv_unit=#{cvUnit}
+			</if>
+			<if test="cvPosition != null and cvPosition != '' ">
+			,cv_position=#{cvPosition}
+			</if>
+			<if test="cvPartTime != null and cvPartTime != '' ">
+			,cv_part_time=#{cvPartTime}
+			</if>
+			<if test="cvStart2 != null">
+			,cv_start2=#{cvStart2}
+			</if>
+			<if test="cvEnd2 != null">
+			,cv_end2=#{cvEnd2}
+			</if>
+			<if test="cvUnit2 != null and cvUnit2 != '' ">
+			,cv_unit2=#{cvUnit2}
+			</if>
+			<if test="cvPosition2 != null and cvPosition2 != '' ">
+			,cv_position2=#{cvPosition2}
+			</if>
+			<if test="cvPartTime2 != null and cvPartTime2 != '' ">
+			,cv_part_time2=#{cvPartTime2}
+			</if>
+			<if test="cvStart3 != null">
+			,cv_start3=#{cvStart3}
+			</if>
+			<if test="cvEnd3 != null">
+			,cv_end3=#{cvEnd3}
+			</if>
+			<if test="cvUnit3 != null and cvUnit3 != '' ">
+			,cv_unit3=#{cvUnit3}
+			</if>
+			<if test="cvPosition3 != null and cvPosition3 != '' ">
+			,cv_position3=#{cvPosition3}
+			</if>
+			<if test="cvPartTime3 != null and cvPartTime3 != '' ">
+			,cv_part_time3=#{cvPartTime3}
+			</if>
+			<if test="cvStart4 != null">
+			,cv_start4=#{cvStart4}
+			</if>
+			<if test="cvEnd4 != null">
+			,cv_end4=#{cvEnd4}
+			</if>
+			<if test="cvUnit4 != null and cvUnit4 != '' ">
+			,cv_unit4=#{cvUnit4}
+			</if>
+			<if test="cvPosition4 != null and cvPosition4 != '' ">
+			,cv_position4=#{cvPosition4}
+			</if>
+			<if test="cvPartTime4 != null and cvPartTime4 != '' ">
+			,cv_part_time4=#{cvPartTime4}
+			</if>
+			<if test="cvStart5 != null">
+			,cv_start5=#{cvStart5}
+			</if>
+			<if test="cvEnd5 != null">
+			,cv_end5=#{cvEnd5}
+			</if>
+			<if test="cvUnit5 != null and cvUnit5 != '' ">
+			,cv_unit5=#{cvUnit5}
+			</if>
+			<if test="cvPosition5 != null and cvPosition5 != '' ">
+			,cv_position5=#{cvPosition5}
+			</if>
+			<if test="cvPartTime5 != null and cvPartTime5 != '' ">
+			,cv_part_time5=#{cvPartTime5}
+			</if>
+			<if test="cvStart6 != null">
+			,cv_start6=#{cvStart6}
+			</if>
+			<if test="cvEnd6 != null">
+			,cv_end6=#{cvEnd6}
+			</if>
+			<if test="cvUnit6 != null and cvUnit6 != '' ">
+			,cv_unit6=#{cvUnit6}
+			</if>
+			<if test="cvPosition6 != null and cvPosition6 != '' ">
+			,cv_position6=#{cvPosition6}
+			</if>
+			<if test="cvPartTime6 != null and cvPartTime6 != '' ">
+			,cv_part_time6=#{cvPartTime6}
+			</if>
+			<if test="cvStart7 != null">
+			,cv_start7=#{cvStart7}
+			</if>
+			<if test="cvEnd7 != null">
+			,cv_end7=#{cvEnd7}
+			</if>
+			<if test="cvUnit7 != null and cvUnit7 != '' ">
+			,cv_unit7=#{cvUnit7}
+			</if>
+			<if test="cvPosition7 != null and cvPosition7 != '' ">
+			,cv_position7=#{cvPosition7}
+			</if>
+			<if test="cvPartTime7 != null and cvPartTime7 != '' ">
+			,cv_part_time7=#{cvPartTime7}
+			</if>
+			<if test="contectsName != null and contectsName != '' ">
+			,contects_name=#{contectsName}
+			</if>
+			<if test="contectsPosition != null and contectsPosition != '' ">
+			,contects_position=#{contectsPosition}
+			</if>
+			<if test="contectsMobilePhone != null and contectsMobilePhone != '' ">
+			,contects_mobile_phone=#{contectsMobilePhone}
+			</if>
+			<if test="contectsPhone != null and contectsPhone != '' ">
+			,contects_phone=#{contectsPhone}
+			</if>
+			<if test="contectsFax != null and contectsFax != '' ">
+			,contects_fax=#{contectsFax}
+			</if>
+			<if test="contectsEmail != null and contectsEmail != '' ">
+			,contects_email=#{contectsEmail}
+			</if>
+			<if test="unitSummary != null and unitSummary != '' ">
+			,unit_summary=#{unitSummary}
+			</if>
+			<if test="unitProduct != null and unitProduct != '' ">
+			,unit_product=#{unitProduct}
+			</if>
+			<if test="unitAnnualTurnover != null and unitAnnualTurnover != '' ">
+			,unit_annual_turnover=#{unitAnnualTurnover}
+			</if>
+			<if test="unitIdea != null and unitIdea != '' ">
+			,unit_idea=#{unitIdea}
+			</if>
+			<if test="approvalComments != null and approvalComments != '' ">
+			,approval_comments=#{approvalComments}
+			</if>
+			<if test="approvalUserName != null and approvalUserName != '' ">
+			,approval_user_name=#{approvalUserName}
+			</if>
+			<if test="approvalUserId != null">
+			,approval_user_id=#{approvalUserId}
+			</if>
+			<if test="approvalDate != null">
+			,approval_date=#{approvalDate}
+			</if>
+		where t.id=#{id}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="int">
+	     update t_membership_apply2 set deleted=0 where id=#{id}
+	</delete>
+	
+
+</mapper> 

@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.wismay.apqt.entity.MembershipApply;
-import com.wismay.apqt.service.MembershipApplyService;
+import com.wismay.apqt.entity.MembershipApply2;
+import com.wismay.apqt.service.MembershipApply2Service;
 import com.wismay.apqt.service.account.ShiroDbRealm.ShiroUser;
 
 /**
@@ -39,7 +39,7 @@ public class MembershipApplyController {
 	}
 
 	@Autowired
-	private MembershipApplyService membershipApplyService;
+	private MembershipApply2Service membershipApplyService;
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String membershipApplylist(Model model) {
@@ -66,7 +66,7 @@ public class MembershipApplyController {
 
 	// 更新保存
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public String updateSave(@Valid @ModelAttribute("membershipApply") MembershipApply membershipApply, RedirectAttributes redirectAttributes) {
+	public String updateSave(@Valid @ModelAttribute("membershipApply") MembershipApply2 membershipApply, RedirectAttributes redirectAttributes) {
 		membershipApplyService.update(membershipApply);
 		redirectAttributes.addFlashAttribute("message", "操作成功");
 		return "redirect:/membershipApply/list";

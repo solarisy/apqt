@@ -10,14 +10,20 @@ public class ${class.name} {
 	}
 	
     <#list class.fields as field> 
-	private ${field.type} ${field.name};
+	private ${field.type} ${field.name}; //${field.comment}
     </#list> 
     
     <#list class.fields as field> 
+    /**
+     *${field.comment}
+     **/
 	public ${field.type} get${field.nameForPascal}(){
 		return ${field.name};
 	}
 	
+	/**
+	 *${field.comment}
+	 **/
 	public void set${field.nameForPascal}(${field.type} ${field.name}){
 		this.${field.name}=${field.name};
 	}
